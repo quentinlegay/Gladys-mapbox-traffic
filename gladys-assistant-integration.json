@@ -1,0 +1,1052 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "Mapbox Traffic",
+  "description": {
+    "en": "Travel time and traffic jams on your routes (home → work), charts and alerts. Powered by Mapbox.",
+    "fr": "Durée de trajet et bouchons sur vos trajets (maison → travail), graphiques et alertes. Via Mapbox."
+  },
+  "version": "1.0.0",
+  "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.0.0",
+  "gladys_version": ">=5.1.0",
+  "cover_image": "https://raw.githubusercontent.com/quentinlegay/Gladys-mapbox-traffic/main/cover.png",
+  "categories": ["services", "notifications"],
+  "location": true,
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Mapbox account",
+        "fr": "Compte Mapbox"
+      },
+      "description": {
+        "en": "Create a free Mapbox account and copy your default public access token (it starts with pk.). The free tier covers 100,000 route requests a month: 3 routes refreshed every 5 minutes during the commute hours use a small fraction of it.",
+        "fr": "Créez un compte Mapbox gratuit et copiez votre jeton d'accès public par défaut (il commence par pk.). L'offre gratuite couvre 100 000 calculs d'itinéraire par mois : 3 trajets actualisés toutes les 5 minutes aux heures de trajet n'en utilisent qu'une petite partie."
+      },
+      "links": [
+        {
+          "url": "https://account.mapbox.com/access-tokens/",
+          "label": {
+            "en": "Mapbox access tokens",
+            "fr": "Jetons d'accès Mapbox"
+          }
+        },
+        {
+          "url": "https://docs.mapbox.com/api/navigation/directions/",
+          "label": {
+            "en": "Directions API documentation",
+            "fr": "Documentation de l'API Directions"
+          }
+        }
+      ]
+    },
+    {
+      "key": "access_token",
+      "type": "secret",
+      "label": {
+        "en": "Mapbox access token",
+        "fr": "Jeton d'accès Mapbox"
+      },
+      "placeholder": {
+        "en": "pk.eyJ1Ijo...",
+        "fr": "pk.eyJ1Ijo..."
+      },
+      "required": true
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes"
+      },
+      "required": false,
+      "default": "fr",
+      "options": [
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "fr": "Français"
+          }
+        },
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "Anglais"
+          }
+        }
+      ]
+    },
+    {
+      "key": "route_1",
+      "type": "section",
+      "label": {
+        "en": "Route 1",
+        "fr": "Trajet 1"
+      },
+      "description": {
+        "en": "A place is either an address (\"10 rue de Rivoli, Paris\") or coordinates as \"latitude, longitude\" (\"48.8566, 2.3522\", as copied from Google Maps). Leave the origin empty to start from the home location set in Gladys. Leave the destination empty to disable the route.",
+        "fr": "Un lieu est soit une adresse (« 10 rue de Rivoli, Paris »), soit des coordonnées « latitude, longitude » (« 48.8566, 2.3522 », copiées depuis Google Maps). Laissez le départ vide pour partir de la position de la maison définie dans Gladys. Laissez la destination vide pour désactiver le trajet."
+      }
+    },
+    {
+      "key": "route_1_name",
+      "type": "string",
+      "label": {
+        "en": "Name",
+        "fr": "Nom"
+      },
+      "placeholder": {
+        "en": "Work",
+        "fr": "Travail"
+      },
+      "required": false
+    },
+    {
+      "key": "route_1_origin",
+      "type": "string",
+      "label": {
+        "en": "Origin (empty = home)",
+        "fr": "Départ (vide = maison)"
+      },
+      "placeholder": {
+        "en": "48.8566, 2.3522",
+        "fr": "48.8566, 2.3522"
+      },
+      "required": false
+    },
+    {
+      "key": "route_1_destination",
+      "type": "string",
+      "label": {
+        "en": "Destination",
+        "fr": "Destination"
+      },
+      "placeholder": {
+        "en": "1 avenue des Champs-Élysées, Paris",
+        "fr": "1 avenue des Champs-Élysées, Paris"
+      },
+      "required": true
+    },
+    {
+      "key": "route_2",
+      "type": "section",
+      "label": {
+        "en": "Route 2",
+        "fr": "Trajet 2"
+      },
+      "description": {
+        "en": "Optional extra route, same format as route 1.",
+        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1."
+      }
+    },
+    {
+      "key": "route_2_name",
+      "type": "string",
+      "label": {
+        "en": "Name",
+        "fr": "Nom"
+      },
+      "placeholder": {
+        "en": "School",
+        "fr": "École"
+      },
+      "required": false
+    },
+    {
+      "key": "route_2_origin",
+      "type": "string",
+      "label": {
+        "en": "Origin (empty = home)",
+        "fr": "Départ (vide = maison)"
+      },
+      "placeholder": {
+        "en": "48.8566, 2.3522",
+        "fr": "48.8566, 2.3522"
+      },
+      "required": false
+    },
+    {
+      "key": "route_2_destination",
+      "type": "string",
+      "label": {
+        "en": "Destination",
+        "fr": "Destination"
+      },
+      "placeholder": {
+        "en": "1 avenue des Champs-Élysées, Paris",
+        "fr": "1 avenue des Champs-Élysées, Paris"
+      },
+      "required": false
+    },
+    {
+      "key": "route_3",
+      "type": "section",
+      "label": {
+        "en": "Route 3",
+        "fr": "Trajet 3"
+      },
+      "description": {
+        "en": "Optional extra route, same format as route 1.",
+        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1."
+      }
+    },
+    {
+      "key": "route_3_name",
+      "type": "string",
+      "label": {
+        "en": "Name",
+        "fr": "Nom"
+      },
+      "placeholder": {
+        "en": "Gym",
+        "fr": "Salle de sport"
+      },
+      "required": false
+    },
+    {
+      "key": "route_3_origin",
+      "type": "string",
+      "label": {
+        "en": "Origin (empty = home)",
+        "fr": "Départ (vide = maison)"
+      },
+      "placeholder": {
+        "en": "48.8566, 2.3522",
+        "fr": "48.8566, 2.3522"
+      },
+      "required": false
+    },
+    {
+      "key": "route_3_destination",
+      "type": "string",
+      "label": {
+        "en": "Destination",
+        "fr": "Destination"
+      },
+      "placeholder": {
+        "en": "1 avenue des Champs-Élysées, Paris",
+        "fr": "1 avenue des Champs-Élysées, Paris"
+      },
+      "required": false
+    },
+    {
+      "key": "refresh",
+      "type": "section",
+      "label": {
+        "en": "Refresh",
+        "fr": "Actualisation"
+      },
+      "description": {
+        "en": "Routes are only refreshed during the active days and hours, to save your Mapbox quota. Leave them empty to refresh all the time.",
+        "fr": "Les trajets ne sont actualisés que pendant les jours et heures actifs, pour économiser votre quota Mapbox. Laissez vide pour actualiser en permanence."
+      }
+    },
+    {
+      "key": "poll_frequency",
+      "type": "number",
+      "label": {
+        "en": "Refresh interval (s)",
+        "fr": "Intervalle d'actualisation (s)"
+      },
+      "required": false,
+      "default": 300,
+      "min": 60,
+      "max": 3600
+    },
+    {
+      "key": "active_days",
+      "type": "multi_select",
+      "label": {
+        "en": "Active days (empty = every day)",
+        "fr": "Jours actifs (vide = tous les jours)"
+      },
+      "required": false,
+      "options": [
+        {
+          "value": "mon",
+          "label": {
+            "en": "Monday",
+            "fr": "Lundi"
+          }
+        },
+        {
+          "value": "tue",
+          "label": {
+            "en": "Tuesday",
+            "fr": "Mardi"
+          }
+        },
+        {
+          "value": "wed",
+          "label": {
+            "en": "Wednesday",
+            "fr": "Mercredi"
+          }
+        },
+        {
+          "value": "thu",
+          "label": {
+            "en": "Thursday",
+            "fr": "Jeudi"
+          }
+        },
+        {
+          "value": "fri",
+          "label": {
+            "en": "Friday",
+            "fr": "Vendredi"
+          }
+        },
+        {
+          "value": "sat",
+          "label": {
+            "en": "Saturday",
+            "fr": "Samedi"
+          }
+        },
+        {
+          "value": "sun",
+          "label": {
+            "en": "Sunday",
+            "fr": "Dimanche"
+          }
+        }
+      ]
+    },
+    {
+      "key": "active_hours",
+      "type": "string",
+      "label": {
+        "en": "Active hours (empty = all day)",
+        "fr": "Heures actives (vide = toute la journée)"
+      },
+      "placeholder": {
+        "en": "07:00-09:30, 16:30-19:00",
+        "fr": "07:00-09:30, 16:30-19:00"
+      },
+      "required": false
+    },
+    {
+      "key": "timezone",
+      "type": "string",
+      "label": {
+        "en": "Timezone",
+        "fr": "Fuseau horaire"
+      },
+      "placeholder": {
+        "en": "Europe/Paris",
+        "fr": "Europe/Paris"
+      },
+      "required": false,
+      "default": "Europe/Paris"
+    },
+    {
+      "key": "avoid",
+      "type": "multi_select",
+      "label": {
+        "en": "Avoid",
+        "fr": "Éviter"
+      },
+      "required": false,
+      "options": [
+        {
+          "value": "toll",
+          "label": {
+            "en": "Tolls",
+            "fr": "Péages"
+          }
+        },
+        {
+          "value": "motorway",
+          "label": {
+            "en": "Motorways",
+            "fr": "Autoroutes"
+          }
+        },
+        {
+          "value": "ferry",
+          "label": {
+            "en": "Ferries",
+            "fr": "Ferries"
+          }
+        }
+      ]
+    },
+    {
+      "key": "alerts",
+      "type": "section",
+      "label": {
+        "en": "Alerts",
+        "fr": "Alertes"
+      },
+      "description": {
+        "en": "A traffic jam is detected when at least the given share of the route is in heavy congestion. The travel time is abnormally long when it exceeds the usual one by both the given percentage and the given number of minutes. Both fire scene triggers.",
+        "fr": "Un embouteillage est détecté quand au moins la part indiquée du trajet est en circulation dense. La durée est anormalement longue quand elle dépasse la durée habituelle à la fois du pourcentage et du nombre de minutes indiqués. Les deux déclenchent des scènes."
+      }
+    },
+    {
+      "key": "congestion_threshold_percent",
+      "type": "number",
+      "label": {
+        "en": "Traffic jam: congested share of the route (%)",
+        "fr": "Embouteillage : part du trajet encombrée (%)"
+      },
+      "required": false,
+      "default": 10,
+      "min": 1,
+      "max": 100
+    },
+    {
+      "key": "abnormal_ratio_percent",
+      "type": "number",
+      "label": {
+        "en": "Abnormal: longer than usual by (%)",
+        "fr": "Anormal : plus long que d'habitude de (%)"
+      },
+      "required": false,
+      "default": 30,
+      "min": 0,
+      "max": 500
+    },
+    {
+      "key": "abnormal_min_delay_minutes",
+      "type": "number",
+      "label": {
+        "en": "Abnormal: and at least (min) late",
+        "fr": "Anormal : et au moins (min) de retard"
+      },
+      "required": false,
+      "default": 5,
+      "min": 0,
+      "max": 600
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test Mapbox",
+        "fr": "Tester Mapbox"
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "key": "refresh_now",
+      "label": {
+        "en": "Refresh the routes now",
+        "fr": "Actualiser les trajets maintenant"
+      },
+      "timeout_seconds": 60
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "traffic_jam_started",
+      "label": {
+        "en": "Traffic jam on a route",
+        "fr": "Embouteillage sur un trajet"
+      },
+      "fields": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": false
+        },
+        {
+          "key": "level",
+          "type": "multi_select",
+          "label": {
+            "en": "Level",
+            "fr": "Niveau"
+          },
+          "required": false,
+          "options": [
+            {
+              "value": "heavy",
+              "label": {
+                "en": "Traffic jam",
+                "fr": "Embouteillage"
+              }
+            },
+            {
+              "value": "severe",
+              "label": {
+                "en": "Severe jam",
+                "fr": "Bouchon important"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "route_name",
+          "type": "string",
+          "label": {
+            "en": "Route name",
+            "fr": "Nom du trajet"
+          }
+        },
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "Traffic level (fluid, moderate, heavy, severe)",
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+          }
+        },
+        {
+          "key": "duration_minutes",
+          "type": "number",
+          "label": {
+            "en": "Travel time (min)",
+            "fr": "Durée du trajet (min)"
+          }
+        },
+        {
+          "key": "typical_minutes",
+          "type": "number",
+          "label": {
+            "en": "Usual travel time (min)",
+            "fr": "Durée habituelle (min)"
+          }
+        },
+        {
+          "key": "delay_minutes",
+          "type": "number",
+          "label": {
+            "en": "Delay (min)",
+            "fr": "Retard (min)"
+          }
+        },
+        {
+          "key": "delay_percent",
+          "type": "number",
+          "label": {
+            "en": "Delay (%)",
+            "fr": "Retard (%)"
+          }
+        },
+        {
+          "key": "congestion_percent",
+          "type": "number",
+          "label": {
+            "en": "Congested share (%)",
+            "fr": "Part encombrée (%)"
+          }
+        },
+        {
+          "key": "distance_km",
+          "type": "number",
+          "label": {
+            "en": "Distance (km)",
+            "fr": "Distance (km)"
+          }
+        },
+        {
+          "key": "via",
+          "type": "string",
+          "label": {
+            "en": "Main roads",
+            "fr": "Routes principales"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé"
+          }
+        }
+      ]
+    },
+    {
+      "key": "traffic_jam_ended",
+      "label": {
+        "en": "Traffic jam cleared on a route",
+        "fr": "Fin d'embouteillage sur un trajet"
+      },
+      "fields": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "route_name",
+          "type": "string",
+          "label": {
+            "en": "Route name",
+            "fr": "Nom du trajet"
+          }
+        },
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "Traffic level (fluid, moderate, heavy, severe)",
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+          }
+        },
+        {
+          "key": "duration_minutes",
+          "type": "number",
+          "label": {
+            "en": "Travel time (min)",
+            "fr": "Durée du trajet (min)"
+          }
+        },
+        {
+          "key": "typical_minutes",
+          "type": "number",
+          "label": {
+            "en": "Usual travel time (min)",
+            "fr": "Durée habituelle (min)"
+          }
+        },
+        {
+          "key": "delay_minutes",
+          "type": "number",
+          "label": {
+            "en": "Delay (min)",
+            "fr": "Retard (min)"
+          }
+        },
+        {
+          "key": "delay_percent",
+          "type": "number",
+          "label": {
+            "en": "Delay (%)",
+            "fr": "Retard (%)"
+          }
+        },
+        {
+          "key": "congestion_percent",
+          "type": "number",
+          "label": {
+            "en": "Congested share (%)",
+            "fr": "Part encombrée (%)"
+          }
+        },
+        {
+          "key": "distance_km",
+          "type": "number",
+          "label": {
+            "en": "Distance (km)",
+            "fr": "Distance (km)"
+          }
+        },
+        {
+          "key": "via",
+          "type": "string",
+          "label": {
+            "en": "Main roads",
+            "fr": "Routes principales"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé"
+          }
+        }
+      ]
+    },
+    {
+      "key": "abnormal_duration_started",
+      "label": {
+        "en": "Abnormally long travel time",
+        "fr": "Durée de trajet anormalement longue"
+      },
+      "fields": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "route_name",
+          "type": "string",
+          "label": {
+            "en": "Route name",
+            "fr": "Nom du trajet"
+          }
+        },
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "Traffic level (fluid, moderate, heavy, severe)",
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+          }
+        },
+        {
+          "key": "duration_minutes",
+          "type": "number",
+          "label": {
+            "en": "Travel time (min)",
+            "fr": "Durée du trajet (min)"
+          }
+        },
+        {
+          "key": "typical_minutes",
+          "type": "number",
+          "label": {
+            "en": "Usual travel time (min)",
+            "fr": "Durée habituelle (min)"
+          }
+        },
+        {
+          "key": "delay_minutes",
+          "type": "number",
+          "label": {
+            "en": "Delay (min)",
+            "fr": "Retard (min)"
+          }
+        },
+        {
+          "key": "delay_percent",
+          "type": "number",
+          "label": {
+            "en": "Delay (%)",
+            "fr": "Retard (%)"
+          }
+        },
+        {
+          "key": "congestion_percent",
+          "type": "number",
+          "label": {
+            "en": "Congested share (%)",
+            "fr": "Part encombrée (%)"
+          }
+        },
+        {
+          "key": "distance_km",
+          "type": "number",
+          "label": {
+            "en": "Distance (km)",
+            "fr": "Distance (km)"
+          }
+        },
+        {
+          "key": "via",
+          "type": "string",
+          "label": {
+            "en": "Main roads",
+            "fr": "Routes principales"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé"
+          }
+        }
+      ]
+    },
+    {
+      "key": "abnormal_duration_ended",
+      "label": {
+        "en": "Travel time back to normal",
+        "fr": "Durée de trajet revenue à la normale"
+      },
+      "fields": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "route_name",
+          "type": "string",
+          "label": {
+            "en": "Route name",
+            "fr": "Nom du trajet"
+          }
+        },
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "Traffic level (fluid, moderate, heavy, severe)",
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+          }
+        },
+        {
+          "key": "duration_minutes",
+          "type": "number",
+          "label": {
+            "en": "Travel time (min)",
+            "fr": "Durée du trajet (min)"
+          }
+        },
+        {
+          "key": "typical_minutes",
+          "type": "number",
+          "label": {
+            "en": "Usual travel time (min)",
+            "fr": "Durée habituelle (min)"
+          }
+        },
+        {
+          "key": "delay_minutes",
+          "type": "number",
+          "label": {
+            "en": "Delay (min)",
+            "fr": "Retard (min)"
+          }
+        },
+        {
+          "key": "delay_percent",
+          "type": "number",
+          "label": {
+            "en": "Delay (%)",
+            "fr": "Retard (%)"
+          }
+        },
+        {
+          "key": "congestion_percent",
+          "type": "number",
+          "label": {
+            "en": "Congested share (%)",
+            "fr": "Part encombrée (%)"
+          }
+        },
+        {
+          "key": "distance_km",
+          "type": "number",
+          "label": {
+            "en": "Distance (km)",
+            "fr": "Distance (km)"
+          }
+        },
+        {
+          "key": "via",
+          "type": "string",
+          "label": {
+            "en": "Main roads",
+            "fr": "Routes principales"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_travel_time",
+      "label": {
+        "en": "Get the travel time of a route",
+        "fr": "Obtenir la durée d'un trajet"
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "route_name",
+          "type": "string",
+          "label": {
+            "en": "Route name",
+            "fr": "Nom du trajet"
+          }
+        },
+        {
+          "key": "duration_minutes",
+          "type": "number",
+          "label": {
+            "en": "Travel time (min)",
+            "fr": "Durée du trajet (min)"
+          }
+        },
+        {
+          "key": "typical_minutes",
+          "type": "number",
+          "label": {
+            "en": "Usual travel time (min)",
+            "fr": "Durée habituelle (min)"
+          }
+        },
+        {
+          "key": "delay_minutes",
+          "type": "number",
+          "label": {
+            "en": "Delay (min)",
+            "fr": "Retard (min)"
+          }
+        },
+        {
+          "key": "distance_km",
+          "type": "number",
+          "label": {
+            "en": "Distance (km)",
+            "fr": "Distance (km)"
+          }
+        },
+        {
+          "key": "traffic_level",
+          "type": "number",
+          "label": {
+            "en": "Traffic level (0-3)",
+            "fr": "Niveau de trafic (0-3)"
+          }
+        },
+        {
+          "key": "traffic_status",
+          "type": "string",
+          "label": {
+            "en": "Traffic status",
+            "fr": "État du trafic"
+          }
+        },
+        {
+          "key": "traffic_jam",
+          "type": "boolean",
+          "label": {
+            "en": "Traffic jam",
+            "fr": "Embouteillage"
+          }
+        },
+        {
+          "key": "abnormal",
+          "type": "boolean",
+          "label": {
+            "en": "Abnormally long",
+            "fr": "Anormalement long"
+          }
+        },
+        {
+          "key": "via",
+          "type": "string",
+          "label": {
+            "en": "Main roads",
+            "fr": "Routes principales"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé"
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "travel_time",
+      "label": {
+        "en": "Travel time",
+        "fr": "Durée de trajet"
+      },
+      "icon": "navigation",
+      "settings": [
+        {
+          "key": "route",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Route",
+            "fr": "Trajet"
+          },
+          "required": true
+        },
+        {
+          "key": "interval",
+          "type": "select",
+          "label": {
+            "en": "Chart period",
+            "fr": "Période du graphique"
+          },
+          "required": false,
+          "default": "last-day",
+          "options": [
+            {
+              "value": "last-twelve-hours",
+              "label": {
+                "en": "Last 12 hours",
+                "fr": "12 dernières heures"
+              }
+            },
+            {
+              "value": "last-day",
+              "label": {
+                "en": "Last 24 hours",
+                "fr": "24 dernières heures"
+              }
+            },
+            {
+              "value": "last-three-days",
+              "label": {
+                "en": "Last 3 days",
+                "fr": "3 derniers jours"
+              }
+            },
+            {
+              "value": "last-week",
+              "label": {
+                "en": "Last week",
+                "fr": "Dernière semaine"
+              }
+            }
+          ]
+        }
+      ],
+      "action_timeout_seconds": 30
+    }
+  ]
+}
