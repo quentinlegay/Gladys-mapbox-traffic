@@ -128,21 +128,23 @@ export function buildRouteDevice(gladys, route, config) {
 }
 
 /**
- * `publishStates` payload for one analysed route.
+ * `publishStates` payload for one analysed route. In a batch, a numeric value
+ * goes in `state` and a text value in `text` (a `{ text }` object in `state`
+ * is only understood by the single `publishState` helper: the host API
+ * rejects it with "must have a numeric state or a string text").
  */
 export function buildRouteStates(gladys, route, analysis, config) {
   const ids = routeIds(gladys, route);
   const state = (key, value) => ({ device_feature_external_id: ids.feature(key), state: value });
+  const text = (key, value) => ({ device_feature_external_id: ids.feature(key), text: value });
   const states = [
     state(FEATURE.DURATION, analysis.durationMinutes),
     state(FEATURE.TYPICAL_DURATION, analysis.typicalMinutes),
     state(FEATURE.DELAY, analysis.delayMinutes),
     state(FEATURE.DISTANCE, analysis.distanceKm),
     state(FEATURE.TRAFFIC_LEVEL, analysis.level),
-    state(FEATURE.TRAFFIC_STATUS, {
-      text: TRAFFIC_LEVEL_LABELS[analysis.levelKey][config.language],
-    }),
+    text(FEATURE.TRAFFIC_STATUS, TRAFFIC_LEVEL_LABELS[analysis.levelKey][config.language]),
   ];
-  if (analysis.via) states.push(state(FEATURE.VIA, { text: analysis.via }));
+  if (analysis.via) states.push(text(FEATURE.VIA, analysis.via));
   return states;
 }
