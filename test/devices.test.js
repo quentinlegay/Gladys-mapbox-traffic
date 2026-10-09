@@ -47,6 +47,16 @@ test('the travel time is a duration in minutes kept in history', () => {
   }
 });
 
+test('every feature declares a numeric min and max (NOT NULL in Gladys)', () => {
+  for (const device of buildDiscoveredDevices(gladys, config)) {
+    for (const feature of device.features) {
+      assert.equal(typeof feature.min, 'number', `${feature.external_id}: min`);
+      assert.equal(typeof feature.max, 'number', `${feature.external_id}: max`);
+      assert.ok(feature.min <= feature.max, `${feature.external_id}: min <= max`);
+    }
+  }
+});
+
 test('feature names follow the configured language', () => {
   const [fr] = buildDiscoveredDevices(gladys, config);
   const [en] = buildDiscoveredDevices(gladys, { ...config, language: 'en' });

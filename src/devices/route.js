@@ -71,6 +71,10 @@ function textFeature(ids, key, language) {
     external_id: ids.feature(key),
     category: DEVICE_FEATURE_CATEGORIES.TEXT,
     type: DEVICE_FEATURE_TYPES.TEXT.TEXT,
+    // Gladys stores min/max as NOT NULL for every feature, text ones included
+    // (HTTP 422 otherwise): 0/0 is the core convention for a text feature.
+    min: 0,
+    max: 0,
     read_only: true,
     has_feedback: false,
     keep_history: false,
