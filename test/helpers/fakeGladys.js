@@ -26,9 +26,21 @@ export function createFakeGladys({ devices = [] } = {}) {
       };
     },
 
+    // Same validation as the host API (POST /state): each entry carries
+    // either a finite numeric `state` or a string `text`.
     async publishStates(states) {
+      states.forEach((s, i) => {
+        const numeric = typeof s.state === 'number' && Number.isFinite(s.state);
+        const text = typeof s.text === 'string';
+        if (numeric === text) {
+          throw new Error(`states[${i}]: must have a numeric "state" or a string "text"`);
+        }
+      });
       for (const s of states) {
-        published.push({ featureExternalId: s.device_feature_external_id, state: s.state });
+        published.push({
+          featureExternalId: s.device_feature_external_id,
+          state: s.text !== undefined ? { text: s.text } : s.state,
+        });
       }
     },
 
