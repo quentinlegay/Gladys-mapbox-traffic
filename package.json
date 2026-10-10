@@ -1,6 +1,6 @@
 {
   "name": "gladys-mapbox-traffic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Gladys Assistant external integration: travel time and traffic jams on your usual routes, powered by the Mapbox Directions API.",
   "type": "module",

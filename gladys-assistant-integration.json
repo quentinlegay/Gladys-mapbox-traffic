@@ -6,8 +6,8 @@
     "en": "Live traffic on your routes: travel time, delay, charts and traffic jam alerts via Mapbox.",
     "fr": "Trafic en temps réel sur vos trajets : durée, retard, graphique et alertes embouteillage via Mapbox."
   },
-  "version": "1.0.1",
-  "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.0.1",
+  "version": "1.0.2",
+  "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.0.2",
   "gladys_version": ">=5.1.0",
   "cover_image": "https://raw.githubusercontent.com/quentinlegay/Gladys-mapbox-traffic/main/cover.png",
   "categories": ["services", "notifications"],
