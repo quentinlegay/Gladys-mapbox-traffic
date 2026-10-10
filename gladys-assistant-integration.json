@@ -3,17 +3,14 @@
   "type": "device",
   "name": "Mapbox Traffic",
   "description": {
-    "en": "Travel time and traffic jams on your routes (home → work), charts and alerts. Powered by Mapbox.",
-    "fr": "Durée de trajet et bouchons sur vos trajets (maison → travail), graphiques et alertes. Via Mapbox."
+    "en": "Live traffic on your routes: travel time, delay, charts and traffic jam alerts via Mapbox.",
+    "fr": "Trafic en temps réel sur vos trajets : durée, retard, graphique et alertes embouteillage via Mapbox."
   },
   "version": "1.0.1",
   "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.0.1",
   "gladys_version": ">=5.1.0",
   "cover_image": "https://raw.githubusercontent.com/quentinlegay/Gladys-mapbox-traffic/main/cover.png",
-  "categories": [
-    "services",
-    "notifications"
-  ],
+  "categories": ["services", "notifications"],
   "location": true,
   "config_schema": [
     {
