@@ -21,8 +21,8 @@
         "fr": "Compte Mapbox"
       },
       "description": {
-        "en": "Create a free Mapbox account and copy your default public access token (it starts with pk.). The free tier covers 100,000 route requests a month: 3 routes refreshed every 5 minutes during the commute hours use a small fraction of it.",
-        "fr": "Créez un compte Mapbox gratuit et copiez votre jeton d'accès public par défaut (il commence par pk.). L'offre gratuite couvre 100 000 calculs d'itinéraire par mois : 3 trajets actualisés toutes les 5 minutes aux heures de trajet n'en utilisent qu'une petite partie."
+        "en": "Create a free Mapbox account and copy your default public access token (it starts with pk.).",
+        "fr": "Créez un compte Mapbox gratuit et copiez votre jeton d'accès public par défaut (il commence par pk.)."
       },
       "links": [
         {
@@ -37,6 +37,34 @@
           "label": {
             "en": "Directions API documentation",
             "fr": "Documentation de l'API Directions"
+          }
+        }
+      ]
+    },
+    {
+      "key": "free_plan",
+      "type": "section",
+      "label": {
+        "en": "Mapbox free plan",
+        "fr": "Offre gratuite Mapbox"
+      },
+      "description": {
+        "en": "The Directions API includes 100,000 free requests a month; beyond that, Mapbox bills the extra requests. This integration makes one request per route at every refresh (addresses are geocoded only once). Monthly usage ≈ routes × refreshes per hour × active hours per day × days. Examples: 3 routes every 5 min, 5 h per working day ≈ 4,000 requests (free); 3 routes every 5 min, 24/7 ≈ 26,000 (free); 3 routes every minute, 24/7 ≈ 130,000 (over the free plan). Use the active days and hours below to stay well within it.",
+        "fr": "L'API Directions inclut 100 000 requêtes gratuites par mois ; au-delà, Mapbox facture les requêtes supplémentaires. Cette intégration fait une requête par trajet à chaque actualisation (les adresses ne sont géocodées qu'une fois). Consommation mensuelle ≈ trajets × actualisations par heure × heures actives par jour × jours. Exemples : 3 trajets toutes les 5 min, 5 h par jour ouvré ≈ 4 000 requêtes (gratuit) ; 3 trajets toutes les 5 min, 24 h/24 ≈ 26 000 (gratuit) ; 3 trajets chaque minute, 24 h/24 ≈ 130 000 (au-delà de l'offre gratuite). Utilisez les jours et heures actifs ci-dessous pour rester largement dans l'offre."
+      },
+      "links": [
+        {
+          "url": "https://www.mapbox.com/pricing#directions-api",
+          "label": {
+            "en": "Mapbox pricing (Directions API)",
+            "fr": "Tarifs Mapbox (API Directions)"
+          }
+        },
+        {
+          "url": "https://account.mapbox.com/",
+          "label": {
+            "en": "Your Mapbox usage",
+            "fr": "Votre consommation Mapbox"
           }
         }
       ]
@@ -109,8 +137,8 @@
       "key": "route_1_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
@@ -160,8 +188,8 @@
       "key": "route_2_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
@@ -211,8 +239,8 @@
       "key": "route_3_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",

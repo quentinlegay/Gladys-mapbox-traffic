@@ -58,8 +58,23 @@ Plus :
   le **fuseau horaire** configuré (`Europe/Paris` par défaut).
 - **Éviter** : péages, autoroutes, ferries.
 
-À titre indicatif, 3 trajets toutes les 5 minutes pendant 5 h par jour ouvré
-représentent environ 4 000 requêtes par mois.
+### Offre gratuite Mapbox
+
+L'API Directions inclut **100 000 requêtes gratuites par mois** ; au-delà,
+Mapbox facture les requêtes supplémentaires (voir les
+[tarifs Mapbox](https://www.mapbox.com/pricing#directions-api)). L'intégration
+fait une requête par trajet à chaque actualisation, et ne géocode chaque
+adresse qu'une fois. Consommation mensuelle ≈ trajets × actualisations par
+heure × heures actives par jour × jours.
+
+Par exemple, 3 trajets actualisés toutes les 5 minutes pendant 5 h par jour
+ouvré consomment environ 4 000 requêtes par mois, et environ 26 000 s'ils sont
+actualisés 24 h/24 : les deux restent dans l'offre gratuite. Actualiser 3
+trajets chaque minute, 24 h/24, consomme environ 130 000 requêtes et la
+dépasse.
+
+Votre consommation réelle est visible dans votre
+[compte Mapbox](https://account.mapbox.com/).
 
 ### Alertes
 
