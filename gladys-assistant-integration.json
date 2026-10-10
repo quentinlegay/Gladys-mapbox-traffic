@@ -137,8 +137,8 @@
       "key": "route_1_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
@@ -188,8 +188,8 @@
       "key": "route_2_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
@@ -239,8 +239,8 @@
       "key": "route_3_origin",
       "type": "string",
       "label": {
-        "en": "Origin (empty = home)",
-        "fr": "Départ (vide = maison)"
+        "en": "Origin (leave empty to start from your home)",
+        "fr": "Départ (laissez vide pour partir de votre maison)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
