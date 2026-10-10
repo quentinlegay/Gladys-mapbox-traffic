@@ -70,6 +70,9 @@ jobs:
             '.version = $version | .docker_image = $image' \
             gladys-assistant-integration.json > "$tmp"
           mv "$tmp" gladys-assistant-integration.json
+          # jq expands every array on several lines: re-apply Prettier so the
+          # release commit keeps the CI format check green.
+          npx --yes prettier@3.9.5 --write gladys-assistant-integration.json
 
           echo "version=${new_version}" >> "$GITHUB_OUTPUT"
 
