@@ -60,13 +60,12 @@ Mapbox bills the extra requests (see the
 [Mapbox pricing](https://www.mapbox.com/pricing#directions-api)). The
 integration makes one request per route at every refresh, and geocodes each
 address only once. Monthly usage ≈ routes × refreshes per hour × active hours
-per day × days:
+per day × days.
 
-| Setup                                      | Requests / month | Free plan |
-| ------------------------------------------ | ---------------- | --------- |
-| 3 routes, every 5 min, 5 h per working day | ≈ 4,000          | ✅        |
-| 3 routes, every 5 min, 24/7                | ≈ 26,000         | ✅        |
-| 3 routes, every minute, 24/7               | ≈ 130,000        | ❌        |
+For example, 3 routes refreshed every 5 minutes for 5 hours each working day
+use about 4,000 requests a month, and about 26,000 when refreshed all day long:
+both stay within the free plan. Refreshing 3 routes every minute, 24/7, uses
+about 130,000 requests and goes over it.
 
 Your actual usage is shown in your [Mapbox account](https://account.mapbox.com/).
 
