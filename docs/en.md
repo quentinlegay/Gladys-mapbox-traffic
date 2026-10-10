@@ -53,8 +53,22 @@ Plus:
   read in the configured **timezone** (`Europe/Paris` by default).
 - **Avoid**: tolls, motorways, ferries.
 
-As an order of magnitude, 3 routes every 5 minutes for 5 hours each working
-day is about 4,000 requests a month.
+### Mapbox free plan
+
+The Directions API includes **100,000 free requests a month**; beyond that,
+Mapbox bills the extra requests (see the
+[Mapbox pricing](https://www.mapbox.com/pricing#directions-api)). The
+integration makes one request per route at every refresh, and geocodes each
+address only once. Monthly usage ≈ routes × refreshes per hour × active hours
+per day × days:
+
+| Setup                                      | Requests / month | Free plan |
+| ------------------------------------------ | ---------------- | --------- |
+| 3 routes, every 5 min, 5 h per working day | ≈ 4,000          | ✅        |
+| 3 routes, every 5 min, 24/7                | ≈ 26,000         | ✅        |
+| 3 routes, every minute, 24/7               | ≈ 130,000        | ❌        |
+
+Your actual usage is shown in your [Mapbox account](https://account.mapbox.com/).
 
 ### Alerts
 
