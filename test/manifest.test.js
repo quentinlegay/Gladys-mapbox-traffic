@@ -115,3 +115,7 @@ test('the access token is a secret and the home location is requested', () => {
   assert.equal(manifest.config_schema.find((f) => f.key === 'access_token').type, 'secret');
   assert.equal(manifest.location, true);
 });
+
+test('the integration is tagged as cloud-only (it relies on the Mapbox API)', () => {
+  assert.deepEqual(manifest.transports, ['cloud']);
+});
