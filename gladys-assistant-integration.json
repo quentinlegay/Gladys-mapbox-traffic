@@ -12,6 +12,7 @@
   "cover_image": "https://raw.githubusercontent.com/quentinlegay/Gladys-mapbox-traffic/main/cover.png",
   "categories": ["services", "notifications"],
   "location": true,
+  "transports": ["cloud"],
   "config_schema": [
     {
       "key": "intro",
