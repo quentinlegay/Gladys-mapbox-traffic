@@ -100,7 +100,7 @@ test('every stored config key is known to DEFAULT_CONFIG', () => {
 
 test('the manifest declares every route slot', () => {
   for (let slot = 1; slot <= MAX_ROUTES; slot += 1) {
-    for (const field of ['name', 'origin', 'destination']) {
+    for (const field of ['name', 'origin', 'via', 'destination']) {
       assert.ok(manifest.config_schema.some((f) => f.key === `route_${slot}_${field}`));
     }
   }

@@ -13,6 +13,9 @@
 // Number of route "slots" declared in the manifest (route_1_*, route_2_*…).
 export const MAX_ROUTES = 3;
 
+// Places a route may be forced through (route_N_via), separated by ";".
+export const MAX_WAYPOINTS = 3;
+
 export const WEEK_DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 export const AVOID_OPTIONS = ['toll', 'motorway', 'ferry'];
@@ -34,6 +37,7 @@ export const DEFAULT_CONFIG = {
     Array.from({ length: MAX_ROUTES }, (_, i) => [
       [`route_${i + 1}_name`, ''],
       [`route_${i + 1}_origin`, ''],
+      [`route_${i + 1}_via`, ''], // e.g. "Pont de Normandie; 49.43, 0.36"
       [`route_${i + 1}_destination`, ''],
     ]).flat(),
   ),
@@ -100,7 +104,7 @@ export function normalizeConfig(raw = {}) {
     ),
   };
   for (let i = 1; i <= MAX_ROUTES; i += 1) {
-    for (const field of ['name', 'origin', 'destination']) {
+    for (const field of ['name', 'origin', 'via', 'destination']) {
       const key = `route_${i}_${field}`;
       normalized[key] = toString(raw[key]);
     }
@@ -109,9 +113,24 @@ export function normalizeConfig(raw = {}) {
 }
 
 /**
+ * Split the "via" field of a route into places: "A; B" -> ["A", "B"]. The
+ * coordinates of a place are separated by a comma ("48.85, 2.35"), never by
+ * the ";" that separates the places. Extra places are ignored.
+ * @param {string} text
+ * @returns {string[]}
+ */
+export function parseWaypoints(text) {
+  return String(text ?? '')
+    .split(';')
+    .map((place) => place.trim())
+    .filter(Boolean)
+    .slice(0, MAX_WAYPOINTS);
+}
+
+/**
  * The routes the user actually configured (a slot counts once it has a
  * destination). The origin may be empty: the home location is used then.
- * @returns {{ slot: number, id: string, name: string, origin: string, destination: string }[]}
+ * @returns {{ slot: number, id: string, name: string, origin: string, waypoints: string[], destination: string }[]}
  */
 export function getConfiguredRoutes(config) {
   const routes = [];
@@ -127,6 +146,7 @@ export function getConfiguredRoutes(config) {
         config[`route_${slot}_name`] ||
         (config.language === 'en' ? `Route ${slot}` : `Trajet ${slot}`),
       origin: config[`route_${slot}_origin`],
+      waypoints: parseWaypoints(config[`route_${slot}_via`]),
       destination,
     });
   }

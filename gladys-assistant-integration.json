@@ -117,8 +117,8 @@
         "fr": "Trajet 1"
       },
       "description": {
-        "en": "A place is either an address (\"10 rue de Rivoli, Paris\") or coordinates as \"latitude, longitude\" (\"48.8566, 2.3522\", as copied from Google Maps). Leave the origin empty to start from the home location set in Gladys. Leave the destination empty to disable the route.",
-        "fr": "Un lieu est soit une adresse (« 10 rue de Rivoli, Paris »), soit des coordonnées « latitude, longitude » (« 48.8566, 2.3522 », copiées depuis Google Maps). Laissez le départ vide pour partir de la position de la maison définie dans Gladys. Laissez la destination vide pour désactiver le trajet."
+        "en": "A place is either an address (\"10 rue de Rivoli, Paris\") or coordinates as \"latitude, longitude\" (\"48.8566, 2.3522\", as copied from Google Maps). Leave the origin empty to start from the home location set in Gladys. Leave the destination empty to disable the route. To take another way than the fastest one, list places to go through (a bridge, a town, a road).",
+        "fr": "Un lieu est soit une adresse (« 10 rue de Rivoli, Paris »), soit des coordonnées « latitude, longitude » (« 48.8566, 2.3522 », copiées depuis Google Maps). Laissez le départ vide pour partir de la position de la maison définie dans Gladys. Laissez la destination vide pour désactiver le trajet. Pour emprunter un autre chemin que le plus rapide, indiquez des lieux de passage (un pont, une ville, une route)."
       }
     },
     {
@@ -144,6 +144,23 @@
       "placeholder": {
         "en": "48.8566, 2.3522",
         "fr": "48.8566, 2.3522"
+      },
+      "required": false
+    },
+    {
+      "key": "route_1_via",
+      "type": "string",
+      "label": {
+        "en": "Go through (optional)",
+        "fr": "Passer par (facultatif)"
+      },
+      "description": {
+        "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+      },
+      "placeholder": {
+        "en": "Pont de Normandie; 49.4431, 0.3601",
+        "fr": "Pont de Normandie; 49.4431, 0.3601"
       },
       "required": false
     },
@@ -199,6 +216,23 @@
       "required": false
     },
     {
+      "key": "route_2_via",
+      "type": "string",
+      "label": {
+        "en": "Go through (optional)",
+        "fr": "Passer par (facultatif)"
+      },
+      "description": {
+        "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+      },
+      "placeholder": {
+        "en": "Pont de Normandie; 49.4431, 0.3601",
+        "fr": "Pont de Normandie; 49.4431, 0.3601"
+      },
+      "required": false
+    },
+    {
       "key": "route_2_destination",
       "type": "string",
       "label": {
@@ -246,6 +280,23 @@
       "placeholder": {
         "en": "48.8566, 2.3522",
         "fr": "48.8566, 2.3522"
+      },
+      "required": false
+    },
+    {
+      "key": "route_3_via",
+      "type": "string",
+      "label": {
+        "en": "Go through (optional)",
+        "fr": "Passer par (facultatif)"
+      },
+      "description": {
+        "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+      },
+      "placeholder": {
+        "en": "Pont de Normandie; 49.4431, 0.3601",
+        "fr": "Pont de Normandie; 49.4431, 0.3601"
       },
       "required": false
     },

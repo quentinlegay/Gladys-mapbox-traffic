@@ -92,6 +92,7 @@ export function buildRouteDevice(gladys, route, config) {
     external_id: ids.device,
     params: [
       { name: 'origin', value: route.origin || 'home' },
+      ...(route.waypoints?.length ? [{ name: 'via', value: route.waypoints.join('; ') }] : []),
       { name: 'destination', value: route.destination },
     ],
     features: [

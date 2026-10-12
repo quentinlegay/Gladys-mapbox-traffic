@@ -1,6 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeConfig, DEFAULT_CONFIG, getConfiguredRoutes, MAX_ROUTES } from '../src/config.js';
+import {
+  normalizeConfig,
+  DEFAULT_CONFIG,
+  getConfiguredRoutes,
+  parseWaypoints,
+  MAX_ROUTES,
+  MAX_WAYPOINTS,
+} from '../src/config.js';
 
 test('normalizeConfig returns the defaults when called with no argument', () => {
   assert.deepEqual(normalizeConfig(), DEFAULT_CONFIG);
@@ -48,4 +55,20 @@ test('getConfiguredRoutes keeps only the slots with a destination', () => {
     ],
   );
   assert.ok(routes.length <= MAX_ROUTES);
+});
+
+test('parseWaypoints splits the places on ";" and keeps the coordinates whole', () => {
+  assert.deepEqual(parseWaypoints(''), []);
+  assert.deepEqual(parseWaypoints(' Pont de Normandie ;; 49.4431, 0.3601 ; '), [
+    'Pont de Normandie',
+    '49.4431, 0.3601',
+  ]);
+  assert.equal(parseWaypoints('a; b; c; d; e').length, MAX_WAYPOINTS);
+});
+
+test('getConfiguredRoutes exposes the waypoints of each route', () => {
+  const [route] = getConfiguredRoutes(
+    normalizeConfig({ route_1_destination: 'Le Havre', route_1_via: ' Rouen ; Honfleur ' }),
+  );
+  assert.deepEqual(route.waypoints, ['Rouen', 'Honfleur']);
 });

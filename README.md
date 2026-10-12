@@ -34,9 +34,10 @@ Documentation utilisateur : [docs/fr.md](./docs/fr.md) · [docs/en.md](./docs/en
 À chaque actualisation (toutes les 5 min par défaut, uniquement pendant les
 jours/heures actifs), pour chaque trajet dont l'appareil a été créé :
 
-1. le départ et la destination sont résolus (coordonnées saisies, adresse
-   géocodée une seule fois, ou position de la maison si le départ est vide) ;
-2. un appel `GET /directions/v5/mapbox/driving-traffic/{départ};{arrivée}`
+1. le départ, les éventuels points de passage (« Passer par ») et la
+   destination sont résolus (coordonnées saisies, adresse géocodée une seule
+   fois, ou position de la maison si le départ est vide) ;
+2. un appel `GET /directions/v5/mapbox/driving-traffic/{départ};{passages…};{arrivée}`
    avec `annotations=congestion,distance` renvoie la durée avec trafic
    (`duration`), la durée typique (`duration_typical`) et la congestion de
    chaque segment. Quand Mapbox n'a pas de durée typique pour une route, la

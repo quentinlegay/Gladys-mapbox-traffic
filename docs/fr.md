@@ -44,7 +44,14 @@ Plus :
      des coordonnées ;
    - **Destination** : une adresse (« 1 place de la Défense, Puteaux ») ou des
      coordonnées « latitude, longitude » (« 48.8924, 2.2369 », le format copié
-     depuis Google Maps par un clic droit).
+     depuis Google Maps par un clic droit) ;
+   - **Passer par** (facultatif) : par défaut, Mapbox suit le chemin le plus
+     rapide. Pour suivre _votre_ chemin, indiquez un ou plusieurs lieux de
+     passage, dans l'ordre, séparés par `;` (jusqu'à 3) : un pont, une ville,
+     un point sur la route choisie… Par exemple
+     `Pont de Normandie; 49.4431, 0.3601`. Choisissez des points situés
+     **sur** la route voulue (pas à côté), sinon Mapbox fait un détour pour
+     les atteindre. Cela ne coûte pas de requête supplémentaire.
 4. Cliquez sur **Tester Mapbox** : la durée actuelle du trajet 1 s'affiche
    sous le bouton.
 5. Ouvrez l'onglet **Découverte** et ajoutez vos trajets.

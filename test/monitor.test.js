@@ -181,3 +181,25 @@ test('refreshAll reports the first error to onRefreshResult', async () => {
   assert.equal(reported.length, 1);
   assert.equal(reported[0].isAuthError, true);
 });
+
+test('the waypoints are resolved and passed to both the live and free-flow requests', async () => {
+  const { monitor, route } = setup({ config: { route_1_via: '48.87, 2.30; 48.88, 2.27' } });
+  const fetchMock = serveRoutes([directionsRoute({ duration: 1800 })]);
+  let result;
+  try {
+    result = await monitor.computeRoute(route);
+  } finally {
+    fetchMock.restore();
+  }
+  assert.equal(fetchMock.calls.length, 2);
+  for (const call of fetchMock.calls) {
+    assert.match(
+      call,
+      /2\.352200,48\.856600;2\.300000,48\.870000;2\.270000,48\.880000;2\.236900,48\.892400/,
+    );
+  }
+  assert.deepEqual(
+    result.waypoints.map((p) => p.label),
+    ['48.87, 2.30', '48.88, 2.27'],
+  );
+});
