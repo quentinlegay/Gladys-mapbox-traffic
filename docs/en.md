@@ -40,7 +40,13 @@ Plus:
    - **Origin**: leave empty to start from the home location set in Gladys
      (Settings → Houses), or type an address or coordinates;
    - **Destination**: an address or "latitude, longitude" coordinates
-     ("48.8924, 2.2369", as copied from Google Maps with a right click).
+     ("48.8924, 2.2369", as copied from Google Maps with a right click);
+   - **Go through** (optional): by default Mapbox follows the fastest way. To
+     follow _your_ way, list one or more places to go through, in order,
+     separated by `;` (up to 3): a bridge, a town, a point on the road you
+     take… For instance `Pont de Normandie; 49.4431, 0.3601`. Pick points
+     **on** the road you want (not next to it), or Mapbox makes a detour to
+     reach them. It costs no extra request.
 4. Click **Test Mapbox**: the current travel time of route 1 shows under the
    button.
 5. Open the **Discovery** tab and add your routes.

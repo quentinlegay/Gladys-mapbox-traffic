@@ -54,11 +54,16 @@ export function createHandlers({ gladys, monitor, getConfig }) {
             fr: `Mapbox OK (trajet d'exemple dans Paris : ${Math.round(sample.duration / 60)} min). Configurez maintenant vos trajets.`,
           };
         }
-        const { analysis, origin, destination } = await monitor.computeRoute(route, config);
-        const label = (place) => place.label;
+        const { analysis, origin, waypoints, destination } = await monitor.computeRoute(
+          route,
+          config,
+        );
+        // Show every resolved place: the user checks the geocoding of the
+        // waypoints too.
+        const path = [origin, ...waypoints, destination].map((place) => place.label).join(' → ');
         return {
-          en: `Mapbox OK — ${route.name} (${label(origin)} → ${label(destination)}): ${formatSummary(analysis, 'en')}, usual ${Math.round(analysis.typicalMinutes)} min.`,
-          fr: `Mapbox OK — ${route.name} (${label(origin)} → ${label(destination)}) : ${formatSummary(analysis, 'fr')}, habituellement ${Math.round(analysis.typicalMinutes)} min.`,
+          en: `Mapbox OK — ${route.name} (${path}): ${formatSummary(analysis, 'en')}, usual ${Math.round(analysis.typicalMinutes)} min.`,
+          fr: `Mapbox OK — ${route.name} (${path}) : ${formatSummary(analysis, 'fr')}, habituellement ${Math.round(analysis.typicalMinutes)} min.`,
         };
       },
 

@@ -68,3 +68,22 @@ test('findRouteByDeviceId routes a device external_id back to its route', () => 
   assert.equal(findRouteByDeviceId(gladys, config, 'ext:mapbox-traffic:route:route-2').slot, 2);
   assert.equal(findRouteByDeviceId(gladys, config, 'unknown'), undefined);
 });
+
+test('the waypoints are shown as a "via" device param, only when set', () => {
+  const devices = buildDiscoveredDevices(
+    gladys,
+    normalizeConfig({
+      route_1_destination: 'Le Havre',
+      route_1_via: 'Rouen;Honfleur',
+      route_2_destination: 'Caen',
+    }),
+  );
+  assert.deepEqual(
+    devices.map((d) => d.params.map((p) => p.name)),
+    [
+      ['origin', 'via', 'destination'],
+      ['origin', 'destination'],
+    ],
+  );
+  assert.equal(devices[0].params[1].value, 'Rouen; Honfleur');
+});

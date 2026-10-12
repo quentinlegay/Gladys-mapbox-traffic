@@ -126,6 +126,17 @@ test('test_connection describes the first route', async () => {
   }
 });
 
+test('test_connection lists the waypoints of the route', async () => {
+  const { handlers } = setup({ route_1_via: '48.87, 2.30' });
+  const fetchMock = mockFetch(() => directionsResponse(jamRoute()));
+  try {
+    const message = await handlers.actions.test_connection();
+    assert.match(message.en, / → 48\.87, 2\.30 → /);
+  } finally {
+    fetchMock.restore();
+  }
+});
+
 test('test_connection uses a sample route when none is configured', async () => {
   const { handlers } = setup({ route_1_destination: '' });
   const fetchMock = mockFetch(() => directionsResponse(directionsRoute({ duration: 600 })));

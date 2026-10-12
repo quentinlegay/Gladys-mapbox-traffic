@@ -117,3 +117,25 @@ test('geocode throws when the address is unknown', async () => {
     fetchMock.restore();
   }
 });
+
+test('fetchRoute goes through the waypoints, in order', async () => {
+  const fetchMock = mockFetch(() => directionsResponse(directionsRoute({ duration: 1 })));
+  try {
+    await fetchRoute({
+      accessToken: 'pk.test',
+      origin,
+      waypoints: [
+        { latitude: 48.87, longitude: 2.3 },
+        { latitude: 48.88, longitude: 2.27 },
+      ],
+      destination,
+    });
+    assert.equal(
+      new URL(fetchMock.calls[0]).pathname,
+      '/directions/v5/mapbox/driving-traffic/' +
+        '2.352200,48.856600;2.300000,48.870000;2.270000,48.880000;2.236900,48.892400',
+    );
+  } finally {
+    fetchMock.restore();
+  }
+});

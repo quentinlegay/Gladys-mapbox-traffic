@@ -74,9 +74,9 @@ export function detectTransitions(previous = { trafficJam: false, abnormal: fals
 export function createTrafficMonitor({ gladys, getConfig, onRefreshResult = () => {}, now }) {
   const clock = now ?? (() => new Date());
   const places = createPlaceResolver();
-  const lastResults = new Map(); // route.id -> { analysis, updatedAt, origin, destination }
+  const lastResults = new Map(); // route.id -> { analysis, updatedAt, origin, waypoints, destination }
   const transitions = new Map(); // route.id -> { trafficJam, abnormal }
-  const freeFlow = new Map(); // "origin;destination;avoid" -> { seconds, fetchedAt }
+  const freeFlow = new Map(); // "origin;waypoints;destination;avoid" -> { seconds, fetchedAt }
   let home = null;
   let timer = null;
 
@@ -90,12 +90,17 @@ export function createTrafficMonitor({ gladys, getConfig, onRefreshResult = () =
     const origin = route.origin
       ? await places.resolve(route.origin, options)
       : { ...home, label: 'home' };
+    const waypoints = [];
+    for (const place of route.waypoints ?? []) {
+      waypoints.push(await places.resolve(place, options));
+    }
     const destination = await places.resolve(route.destination, options);
-    return { origin, destination };
+    return { origin, waypoints, destination };
   }
 
-  async function freeFlowSeconds(origin, destination, config) {
-    const key = [origin.latitude, origin.longitude, destination.latitude, destination.longitude]
+  async function freeFlowSeconds(origin, waypoints, destination, config) {
+    const key = [origin, ...waypoints, destination]
+      .flatMap((point) => [point.latitude, point.longitude])
       .concat(config.avoid)
       .join(';');
     const cached = freeFlow.get(key);
@@ -103,6 +108,7 @@ export function createTrafficMonitor({ gladys, getConfig, onRefreshResult = () =
     const route = await fetchRoute({
       accessToken: config.access_token,
       origin,
+      waypoints,
       destination,
       profile: 'driving',
       exclude: config.avoid,
@@ -117,18 +123,19 @@ export function createTrafficMonitor({ gladys, getConfig, onRefreshResult = () =
    */
   async function computeRoute(route, config = getConfig()) {
     if (!config.access_token) throw new Error('No Mapbox access token configured');
-    const { origin, destination } = await resolveEndpoints(route, config);
+    const { origin, waypoints, destination } = await resolveEndpoints(route, config);
     const mapboxRoute = await fetchRoute({
       accessToken: config.access_token,
       origin,
+      waypoints,
       destination,
       exclude: config.avoid,
     });
     const fallbackTypicalSeconds = Number.isFinite(mapboxRoute.duration_typical)
       ? undefined
-      : await freeFlowSeconds(origin, destination, config);
+      : await freeFlowSeconds(origin, waypoints, destination, config);
     const analysis = analyzeRoute(mapboxRoute, { fallbackTypicalSeconds, thresholds: config });
-    const result = { analysis, updatedAt: clock(), origin, destination };
+    const result = { analysis, updatedAt: clock(), origin, waypoints, destination };
     lastResults.set(route.id, result);
     return result;
   }

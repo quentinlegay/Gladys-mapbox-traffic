@@ -78,6 +78,8 @@ function formatPoint({ latitude, longitude }) {
  * @param {string} options.accessToken Mapbox public access token
  * @param {{ latitude: number, longitude: number }} options.origin
  * @param {{ latitude: number, longitude: number }} options.destination
+ * @param {{ latitude: number, longitude: number }[]} [options.waypoints] places
+ *   to go through, in order, between the origin and the destination
  * @param {'driving-traffic' | 'driving'} [options.profile]
  * @param {string[]} [options.exclude] road types to avoid (toll, motorway, ferry)
  * @param {boolean} [options.congestion] request the per-segment congestion
@@ -87,6 +89,7 @@ export async function fetchRoute({
   accessToken,
   origin,
   destination,
+  waypoints = [],
   profile = 'driving-traffic',
   exclude = [],
   congestion = true,
@@ -102,7 +105,9 @@ export async function fetchRoute({
   }
   if (exclude.length > 0) params.set('exclude', exclude.join(','));
 
-  const coordinates = `${formatPoint(origin)};${formatPoint(destination)}`;
+  // One leg per pair of consecutive points: the route-level duration,
+  // duration_typical and distance are the totals over all the legs.
+  const coordinates = [origin, ...waypoints, destination].map(formatPoint).join(';');
   // Coordinates are formatted numbers only: nothing to escape in the path.
   const url = `${API_BASE_URL}/directions/v5/mapbox/${profile}/${coordinates}?${params}`;
 
