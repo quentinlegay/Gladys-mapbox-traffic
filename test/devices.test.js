@@ -62,6 +62,10 @@ test('feature names follow the configured language', () => {
   const [en] = buildDiscoveredDevices(gladys, { ...config, language: 'en' });
   assert.equal(fr.features[0].name, 'Durée du trajet');
   assert.equal(en.features[0].name, 'Travel time');
+  const [de] = buildDiscoveredDevices(gladys, { ...config, language: 'de' });
+  const [es] = buildDiscoveredDevices(gladys, { ...config, language: 'es' });
+  assert.equal(de.features[0].name, 'Fahrzeit');
+  assert.equal(es.features[0].name, 'Duración del trayecto');
 });
 
 test('findRouteByDeviceId routes a device external_id back to its route', () => {

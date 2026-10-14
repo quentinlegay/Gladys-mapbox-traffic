@@ -6,7 +6,7 @@
 // -----------------------------------------------------------------------------
 
 import { createLogger } from '@gladysassistant/integration-sdk';
-import { getConfiguredRoutes } from './config.js';
+import { LANGUAGES, getConfiguredRoutes } from './config.js';
 import { findRouteByDeviceId } from './devices/index.js';
 import { fetchRoute } from './mapbox.js';
 import { TRAFFIC_LEVEL_LABELS, formatSummary } from './traffic.js';
@@ -26,6 +26,8 @@ const WIDGET_TTL_SECONDS = 60;
 const NO_TOKEN = {
   en: 'Fill in your Mapbox access token first.',
   fr: "Renseignez d'abord votre jeton d'accès Mapbox.",
+  de: 'Geben Sie zuerst Ihr Mapbox-Zugriffstoken ein.',
+  es: 'Introduzca primero su token de acceso de Mapbox.',
 };
 
 /**
@@ -52,6 +54,8 @@ export function createHandlers({ gladys, monitor, getConfig }) {
           return {
             en: `Mapbox OK (sample route in Paris: ${Math.round(sample.duration / 60)} min). Now configure your routes.`,
             fr: `Mapbox OK (trajet d'exemple dans Paris : ${Math.round(sample.duration / 60)} min). Configurez maintenant vos trajets.`,
+            de: `Mapbox OK (Beispielstrecke in Paris: ${Math.round(sample.duration / 60)} min). Konfigurieren Sie jetzt Ihre Strecken.`,
+            es: `Mapbox OK (trayecto de ejemplo en París: ${Math.round(sample.duration / 60)} min). Configure ahora sus trayectos.`,
           };
         }
         const { analysis, origin, waypoints, destination } = await monitor.computeRoute(
@@ -64,6 +68,8 @@ export function createHandlers({ gladys, monitor, getConfig }) {
         return {
           en: `Mapbox OK — ${route.name} (${path}): ${formatSummary(analysis, 'en')}, usual ${Math.round(analysis.typicalMinutes)} min.`,
           fr: `Mapbox OK — ${route.name} (${path}) : ${formatSummary(analysis, 'fr')}, habituellement ${Math.round(analysis.typicalMinutes)} min.`,
+          de: `Mapbox OK — ${route.name} (${path}): ${formatSummary(analysis, 'de')}, üblich ${Math.round(analysis.typicalMinutes)} min.`,
+          es: `Mapbox OK — ${route.name} (${path}): ${formatSummary(analysis, 'es')}, habitualmente ${Math.round(analysis.typicalMinutes)} min.`,
         };
       },
 
@@ -74,6 +80,8 @@ export function createHandlers({ gladys, monitor, getConfig }) {
           return {
             en: 'No route device created yet: add your routes from the Discovery tab.',
             fr: "Aucun appareil trajet créé : ajoutez vos trajets depuis l'onglet Découverte.",
+            de: 'Noch kein Strecken-Gerät erstellt: Fügen Sie Ihre Strecken über den Reiter „Erkennung“ hinzu.',
+            es: 'Aún no se ha creado ningún dispositivo de trayecto: añada sus trayectos desde la pestaña Descubrimiento.',
           };
         }
         const { refreshed, errors } = await monitor.refreshAll({ force: true });
@@ -83,6 +91,8 @@ export function createHandlers({ gladys, monitor, getConfig }) {
         return {
           en: `${refreshed} route(s) refreshed.`,
           fr: `${refreshed} trajet(s) actualisé(s).`,
+          de: `${refreshed} Strecke(n) aktualisiert.`,
+          es: `${refreshed} trayecto(s) actualizado(s).`,
         };
       },
     },
@@ -144,7 +154,7 @@ export function createHandlers({ gladys, monitor, getConfig }) {
       if (!config.access_token) return NO_TOKEN;
       const route = requireRoute(settings.route);
       const { analysis } = await monitor.refreshRoute(route);
-      return { en: formatSummary(analysis, 'en'), fr: formatSummary(analysis, 'fr') };
+      return Object.fromEntries(LANGUAGES.map((lang) => [lang, formatSummary(analysis, lang)]));
     },
   };
 }

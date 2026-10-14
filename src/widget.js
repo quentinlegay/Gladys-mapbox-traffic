@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 import { WIDGET_COLORS } from '@gladysassistant/integration-sdk';
+import { toLanguage } from './config.js';
 import { FEATURE, featureIdFromDevice } from './devices/route.js';
 import { TRAFFIC_LEVEL_LABELS } from './traffic.js';
 
@@ -24,28 +25,39 @@ const LEVEL_COLORS = [
 ];
 
 const T = {
-  duration: { en: 'Travel time', fr: 'Durée' },
-  delay: { en: 'Delay', fr: 'Retard' },
-  usual: { en: 'Usual', fr: 'Habituel' },
-  traffic: { en: 'Traffic', fr: 'Trafic' },
-  congestion: { en: 'Congested', fr: 'Encombré' },
-  distance: { en: 'Distance', fr: 'Distance' },
-  via: { en: 'Via', fr: 'Par' },
-  updated: { en: 'Updated', fr: 'Mis à jour' },
-  chart: { en: 'Travel time (min)', fr: 'Durée du trajet (min)' },
-  refresh: { en: 'Refresh', fr: 'Actualiser' },
+  duration: { en: 'Travel time', fr: 'Durée', de: 'Fahrzeit', es: 'Duración' },
+  delay: { en: 'Delay', fr: 'Retard', de: 'Verspätung', es: 'Retraso' },
+  usual: { en: 'Usual', fr: 'Habituel', de: 'Üblich', es: 'Habitual' },
+  traffic: { en: 'Traffic', fr: 'Trafic', de: 'Verkehr', es: 'Tráfico' },
+  congestion: { en: 'Congested', fr: 'Encombré', de: 'Gestaut', es: 'Congestionado' },
+  distance: { en: 'Distance', fr: 'Distance', de: 'Entfernung', es: 'Distancia' },
+  via: { en: 'Via', fr: 'Par', de: 'Über', es: 'Por' },
+  updated: { en: 'Updated', fr: 'Mis à jour', de: 'Aktualisiert', es: 'Actualizado' },
+  chart: {
+    en: 'Travel time (min)',
+    fr: 'Durée du trajet (min)',
+    de: 'Fahrzeit (min)',
+    es: 'Duración del trayecto (min)',
+  },
+  refresh: { en: 'Refresh', fr: 'Actualiser', de: 'Aktualisieren', es: 'Actualizar' },
   noRoute: {
     en: 'This route is no longer configured.',
     fr: "Ce trajet n'est plus configuré.",
+    de: 'Diese Strecke ist nicht mehr konfiguriert.',
+    es: 'Este trayecto ya no está configurado.',
   },
   pickRoute: {
     en: 'Pick a route in the widget settings.',
     fr: 'Choisissez un trajet dans les réglages du widget.',
+    de: 'Wählen Sie eine Strecke in den Widget-Einstellungen.',
+    es: 'Elija un trayecto en los ajustes del widget.',
   },
 };
 
+const LOCALES = { en: 'en-GB', fr: 'fr-FR', de: 'de-DE', es: 'es-ES' };
+
 function formatTime(date, language, timezone) {
-  return new Intl.DateTimeFormat(language === 'en' ? 'en-GB' : 'fr-FR', {
+  return new Intl.DateTimeFormat(LOCALES[language], {
     timeZone: timezone,
     hour: '2-digit',
     minute: '2-digit',
@@ -71,7 +83,7 @@ export function buildWidgetContent({
   timezone,
   ttlSeconds,
 }) {
-  const lang = language === 'fr' ? 'fr' : 'en';
+  const lang = toLanguage(language);
   if (!deviceExternalId || !route) {
     return {
       components: [
