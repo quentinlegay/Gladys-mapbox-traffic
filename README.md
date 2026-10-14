@@ -16,7 +16,8 @@ Construite à partir du template officiel
 [integration-template-js](https://github.com/GladysAssistant/integration-template-js)
 et du SDK [`@gladysassistant/integration-sdk`](https://github.com/GladysAssistant/integration-sdk-js).
 
-Documentation utilisateur : [docs/fr.md](./docs/fr.md) · [docs/en.md](./docs/en.md).
+Documentation utilisateur : [docs/fr.md](./docs/fr.md) · [docs/en.md](./docs/en.md) ·
+[docs/de.md](./docs/de.md) · [docs/es.md](./docs/es.md).
 
 ## Fonctionnement
 
@@ -66,7 +67,7 @@ jours/heures actifs), pour chaque trajet dont l'appareil a été créé :
 │     ├─ index.js                    # un appareil par trajet configuré
 │     └─ route.js                    # fonctionnalités de l'appareil « trajet »
 ├─ test/                             # tests `node --test` (fetch Mapbox simulé)
-├─ docs/{fr,en}.md                   # documentation utilisateur (ré-hébergée par Gladys)
+├─ docs/{fr,en,de,es}.md             # documentation utilisateur (ré-hébergée par Gladys)
 ├─ gladys-assistant-integration.json # manifeste
 ├─ Dockerfile                        # Node 24 Alpine, rootfs en lecture seule
 └─ cover.png                         # couverture 800×534

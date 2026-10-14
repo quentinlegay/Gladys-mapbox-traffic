@@ -4,7 +4,9 @@
   "name": "Mapbox Traffic",
   "description": {
     "en": "Live traffic on your routes: travel time, delay, charts and traffic jam alerts via Mapbox.",
-    "fr": "Trafic en temps réel sur vos trajets : durée, retard, graphique et alertes embouteillage via Mapbox."
+    "fr": "Trafic en temps réel sur vos trajets : durée, retard, graphique et alertes embouteillage via Mapbox.",
+    "de": "Echtzeit-Verkehr auf Ihren Strecken: Fahrzeit, Verspätung, Diagramme und Stauwarnungen über Mapbox.",
+    "es": "Tráfico en tiempo real en sus trayectos: duración, retraso, gráficos y alertas de atascos a través de Mapbox."
   },
   "version": "1.1.0",
   "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.1.0",
@@ -19,25 +21,33 @@
       "type": "section",
       "label": {
         "en": "Mapbox account",
-        "fr": "Compte Mapbox"
+        "fr": "Compte Mapbox",
+        "de": "Mapbox-Konto",
+        "es": "Cuenta de Mapbox"
       },
       "description": {
         "en": "Create a free Mapbox account and copy your default public access token (it starts with pk.).",
-        "fr": "Créez un compte Mapbox gratuit et copiez votre jeton d'accès public par défaut (il commence par pk.)."
+        "fr": "Créez un compte Mapbox gratuit et copiez votre jeton d'accès public par défaut (il commence par pk.).",
+        "de": "Erstellen Sie ein kostenloses Mapbox-Konto und kopieren Sie Ihr öffentliches Standard-Zugriffstoken (es beginnt mit pk.).",
+        "es": "Cree una cuenta gratuita de Mapbox y copie su token de acceso público predeterminado (empieza por pk.)."
       },
       "links": [
         {
           "url": "https://account.mapbox.com/access-tokens/",
           "label": {
             "en": "Mapbox access tokens",
-            "fr": "Jetons d'accès Mapbox"
+            "fr": "Jetons d'accès Mapbox",
+            "de": "Mapbox-Zugriffstokens",
+            "es": "Tokens de acceso de Mapbox"
           }
         },
         {
           "url": "https://docs.mapbox.com/api/navigation/directions/",
           "label": {
             "en": "Directions API documentation",
-            "fr": "Documentation de l'API Directions"
+            "fr": "Documentation de l'API Directions",
+            "de": "Dokumentation der Directions-API",
+            "es": "Documentación de la API Directions"
           }
         }
       ]
@@ -47,25 +57,33 @@
       "type": "section",
       "label": {
         "en": "Mapbox free plan",
-        "fr": "Offre gratuite Mapbox"
+        "fr": "Offre gratuite Mapbox",
+        "de": "Kostenloser Mapbox-Tarif",
+        "es": "Plan gratuito de Mapbox"
       },
       "description": {
         "en": "The Directions API includes 100,000 free requests a month; beyond that, Mapbox bills the extra requests. This integration makes one request per route at every refresh (addresses are geocoded only once). Monthly usage ≈ routes × refreshes per hour × active hours per day × days. Examples: 3 routes every 5 min, 5 h per working day ≈ 4,000 requests (free); 3 routes every 5 min, 24/7 ≈ 26,000 (free); 3 routes every minute, 24/7 ≈ 130,000 (over the free plan). Use the active days and hours below to stay well within it.",
-        "fr": "L'API Directions inclut 100 000 requêtes gratuites par mois ; au-delà, Mapbox facture les requêtes supplémentaires. Cette intégration fait une requête par trajet à chaque actualisation (les adresses ne sont géocodées qu'une fois). Consommation mensuelle ≈ trajets × actualisations par heure × heures actives par jour × jours. Exemples : 3 trajets toutes les 5 min, 5 h par jour ouvré ≈ 4 000 requêtes (gratuit) ; 3 trajets toutes les 5 min, 24 h/24 ≈ 26 000 (gratuit) ; 3 trajets chaque minute, 24 h/24 ≈ 130 000 (au-delà de l'offre gratuite). Utilisez les jours et heures actifs ci-dessous pour rester largement dans l'offre."
+        "fr": "L'API Directions inclut 100 000 requêtes gratuites par mois ; au-delà, Mapbox facture les requêtes supplémentaires. Cette intégration fait une requête par trajet à chaque actualisation (les adresses ne sont géocodées qu'une fois). Consommation mensuelle ≈ trajets × actualisations par heure × heures actives par jour × jours. Exemples : 3 trajets toutes les 5 min, 5 h par jour ouvré ≈ 4 000 requêtes (gratuit) ; 3 trajets toutes les 5 min, 24 h/24 ≈ 26 000 (gratuit) ; 3 trajets chaque minute, 24 h/24 ≈ 130 000 (au-delà de l'offre gratuite). Utilisez les jours et heures actifs ci-dessous pour rester largement dans l'offre.",
+        "de": "Die Directions-API enthält 100.000 kostenlose Anfragen pro Monat; darüber hinaus berechnet Mapbox die zusätzlichen Anfragen. Diese Integration stellt bei jeder Aktualisierung eine Anfrage pro Strecke (Adressen werden nur einmal geokodiert). Monatlicher Verbrauch ≈ Strecken × Aktualisierungen pro Stunde × aktive Stunden pro Tag × Tage. Beispiele: 3 Strecken alle 5 min, 5 h pro Werktag ≈ 4.000 Anfragen (kostenlos); 3 Strecken alle 5 min, rund um die Uhr ≈ 26.000 (kostenlos); 3 Strecken jede Minute, rund um die Uhr ≈ 130.000 (über dem kostenlosen Tarif). Nutzen Sie die aktiven Tage und Stunden unten, um deutlich darunter zu bleiben.",
+        "es": "La API Directions incluye 100 000 solicitudes gratuitas al mes; por encima, Mapbox factura las solicitudes adicionales. Esta integración hace una solicitud por trayecto en cada actualización (las direcciones solo se geocodifican una vez). Consumo mensual ≈ trayectos × actualizaciones por hora × horas activas por día × días. Ejemplos: 3 trayectos cada 5 min, 5 h por día laborable ≈ 4000 solicitudes (gratis); 3 trayectos cada 5 min, 24 h/24 ≈ 26 000 (gratis); 3 trayectos cada minuto, 24 h/24 ≈ 130 000 (por encima del plan gratuito). Use los días y horas activos de abajo para quedarse holgadamente dentro."
       },
       "links": [
         {
           "url": "https://www.mapbox.com/pricing#directions-api",
           "label": {
             "en": "Mapbox pricing (Directions API)",
-            "fr": "Tarifs Mapbox (API Directions)"
+            "fr": "Tarifs Mapbox (API Directions)",
+            "de": "Mapbox-Preise (Directions-API)",
+            "es": "Precios de Mapbox (API Directions)"
           }
         },
         {
           "url": "https://account.mapbox.com/",
           "label": {
             "en": "Your Mapbox usage",
-            "fr": "Votre consommation Mapbox"
+            "fr": "Votre consommation Mapbox",
+            "de": "Ihr Mapbox-Verbrauch",
+            "es": "Su consumo de Mapbox"
           }
         }
       ]
@@ -75,11 +93,15 @@
       "type": "secret",
       "label": {
         "en": "Mapbox access token",
-        "fr": "Jeton d'accès Mapbox"
+        "fr": "Jeton d'accès Mapbox",
+        "de": "Mapbox-Zugriffstoken",
+        "es": "Token de acceso de Mapbox"
       },
       "placeholder": {
         "en": "pk.eyJ1Ijo...",
-        "fr": "pk.eyJ1Ijo..."
+        "fr": "pk.eyJ1Ijo...",
+        "de": "pk.eyJ1Ijo...",
+        "es": "pk.eyJ1Ijo..."
       },
       "required": true
     },
@@ -88,7 +110,9 @@
       "type": "select",
       "label": {
         "en": "Language of the texts",
-        "fr": "Langue des textes"
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
       },
       "required": false,
       "default": "fr",
@@ -97,14 +121,36 @@
           "value": "fr",
           "label": {
             "en": "French",
-            "fr": "Français"
+            "fr": "Français",
+            "de": "Französisch",
+            "es": "Francés"
           }
         },
         {
           "value": "en",
           "label": {
             "en": "English",
-            "fr": "Anglais"
+            "fr": "Anglais",
+            "de": "Englisch",
+            "es": "Inglés"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "fr": "Allemand",
+            "de": "Deutsch",
+            "es": "Alemán"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Spanish",
+            "fr": "Espagnol",
+            "de": "Spanisch",
+            "es": "Español"
           }
         }
       ]
@@ -114,11 +160,15 @@
       "type": "section",
       "label": {
         "en": "Route 1",
-        "fr": "Trajet 1"
+        "fr": "Trajet 1",
+        "de": "Strecke 1",
+        "es": "Trayecto 1"
       },
       "description": {
         "en": "A place is either an address (\"10 rue de Rivoli, Paris\") or coordinates as \"latitude, longitude\" (\"48.8566, 2.3522\", as copied from Google Maps). Leave the origin empty to start from the home location set in Gladys. Leave the destination empty to disable the route. To take another way than the fastest one, list places to go through (a bridge, a town, a road).",
-        "fr": "Un lieu est soit une adresse (« 10 rue de Rivoli, Paris »), soit des coordonnées « latitude, longitude » (« 48.8566, 2.3522 », copiées depuis Google Maps). Laissez le départ vide pour partir de la position de la maison définie dans Gladys. Laissez la destination vide pour désactiver le trajet. Pour emprunter un autre chemin que le plus rapide, indiquez des lieux de passage (un pont, une ville, une route)."
+        "fr": "Un lieu est soit une adresse (« 10 rue de Rivoli, Paris »), soit des coordonnées « latitude, longitude » (« 48.8566, 2.3522 », copiées depuis Google Maps). Laissez le départ vide pour partir de la position de la maison définie dans Gladys. Laissez la destination vide pour désactiver le trajet. Pour emprunter un autre chemin que le plus rapide, indiquez des lieux de passage (un pont, une ville, une route).",
+        "de": "Ein Ort ist entweder eine Adresse („10 rue de Rivoli, Paris“) oder Koordinaten im Format „Breitengrad, Längengrad“ („48.8566, 2.3522“, wie aus Google Maps kopiert). Lassen Sie den Start leer, um vom in Gladys festgelegten Standort des Hauses loszufahren. Lassen Sie das Ziel leer, um die Strecke zu deaktivieren. Um einen anderen als den schnellsten Weg zu nehmen, geben Sie Orte an, über die gefahren werden soll (eine Brücke, eine Stadt, eine Straße).",
+        "es": "Un lugar es una dirección («10 rue de Rivoli, Paris») o unas coordenadas «latitud, longitud» («48.8566, 2.3522», copiadas de Google Maps). Deje el origen vacío para salir de la ubicación de la casa definida en Gladys. Deje el destino vacío para desactivar el trayecto. Para tomar otro camino que el más rápido, indique lugares de paso (un puente, una ciudad, una carretera)."
       }
     },
     {
@@ -126,11 +176,15 @@
       "type": "string",
       "label": {
         "en": "Name",
-        "fr": "Nom"
+        "fr": "Nom",
+        "de": "Name",
+        "es": "Nombre"
       },
       "placeholder": {
         "en": "Work",
-        "fr": "Travail"
+        "fr": "Travail",
+        "de": "Arbeit",
+        "es": "Trabajo"
       },
       "required": false
     },
@@ -139,11 +193,15 @@
       "type": "string",
       "label": {
         "en": "Origin (leave empty to start from your home)",
-        "fr": "Départ (laissez vide pour partir de votre maison)"
+        "fr": "Départ (laissez vide pour partir de votre maison)",
+        "de": "Start (leer lassen, um von zu Hause loszufahren)",
+        "es": "Origen (déjelo vacío para salir de su casa)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
-        "fr": "48.8566, 2.3522"
+        "fr": "48.8566, 2.3522",
+        "de": "48.8566, 2.3522",
+        "es": "48.8566, 2.3522"
       },
       "required": false
     },
@@ -152,15 +210,21 @@
       "type": "string",
       "label": {
         "en": "Go through (optional)",
-        "fr": "Passer par (facultatif)"
+        "fr": "Passer par (facultatif)",
+        "de": "Fahren über (optional)",
+        "es": "Pasar por (opcional)"
       },
       "description": {
         "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
-        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; ».",
+        "de": "Erzwingt die Strecke über diese Orte, in dieser Reihenfolge, statt des schnellsten Wegs. Bis zu 3 Orte, getrennt durch „;“.",
+        "es": "Obliga a pasar por estos lugares, en orden, en lugar del camino más rápido. Hasta 3 lugares separados por «;»."
       },
       "placeholder": {
         "en": "Pont de Normandie; 49.4431, 0.3601",
-        "fr": "Pont de Normandie; 49.4431, 0.3601"
+        "fr": "Pont de Normandie; 49.4431, 0.3601",
+        "de": "Pont de Normandie; 49.4431, 0.3601",
+        "es": "Pont de Normandie; 49.4431, 0.3601"
       },
       "required": false
     },
@@ -169,11 +233,15 @@
       "type": "string",
       "label": {
         "en": "Destination",
-        "fr": "Destination"
+        "fr": "Destination",
+        "de": "Ziel",
+        "es": "Destino"
       },
       "placeholder": {
         "en": "1 avenue des Champs-Élysées, Paris",
-        "fr": "1 avenue des Champs-Élysées, Paris"
+        "fr": "1 avenue des Champs-Élysées, Paris",
+        "de": "1 avenue des Champs-Élysées, Paris",
+        "es": "1 avenue des Champs-Élysées, Paris"
       },
       "required": true
     },
@@ -182,11 +250,15 @@
       "type": "section",
       "label": {
         "en": "Route 2",
-        "fr": "Trajet 2"
+        "fr": "Trajet 2",
+        "de": "Strecke 2",
+        "es": "Trayecto 2"
       },
       "description": {
         "en": "Optional extra route, same format as route 1.",
-        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1."
+        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1.",
+        "de": "Optionale zusätzliche Strecke, gleiches Format wie Strecke 1.",
+        "es": "Trayecto adicional opcional, mismo formato que el trayecto 1."
       }
     },
     {
@@ -194,11 +266,15 @@
       "type": "string",
       "label": {
         "en": "Name",
-        "fr": "Nom"
+        "fr": "Nom",
+        "de": "Name",
+        "es": "Nombre"
       },
       "placeholder": {
         "en": "School",
-        "fr": "École"
+        "fr": "École",
+        "de": "Schule",
+        "es": "Colegio"
       },
       "required": false
     },
@@ -207,11 +283,15 @@
       "type": "string",
       "label": {
         "en": "Origin (leave empty to start from your home)",
-        "fr": "Départ (laissez vide pour partir de votre maison)"
+        "fr": "Départ (laissez vide pour partir de votre maison)",
+        "de": "Start (leer lassen, um von zu Hause loszufahren)",
+        "es": "Origen (déjelo vacío para salir de su casa)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
-        "fr": "48.8566, 2.3522"
+        "fr": "48.8566, 2.3522",
+        "de": "48.8566, 2.3522",
+        "es": "48.8566, 2.3522"
       },
       "required": false
     },
@@ -220,15 +300,21 @@
       "type": "string",
       "label": {
         "en": "Go through (optional)",
-        "fr": "Passer par (facultatif)"
+        "fr": "Passer par (facultatif)",
+        "de": "Fahren über (optional)",
+        "es": "Pasar por (opcional)"
       },
       "description": {
         "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
-        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; ».",
+        "de": "Erzwingt die Strecke über diese Orte, in dieser Reihenfolge, statt des schnellsten Wegs. Bis zu 3 Orte, getrennt durch „;“.",
+        "es": "Obliga a pasar por estos lugares, en orden, en lugar del camino más rápido. Hasta 3 lugares separados por «;»."
       },
       "placeholder": {
         "en": "Pont de Normandie; 49.4431, 0.3601",
-        "fr": "Pont de Normandie; 49.4431, 0.3601"
+        "fr": "Pont de Normandie; 49.4431, 0.3601",
+        "de": "Pont de Normandie; 49.4431, 0.3601",
+        "es": "Pont de Normandie; 49.4431, 0.3601"
       },
       "required": false
     },
@@ -237,11 +323,15 @@
       "type": "string",
       "label": {
         "en": "Destination",
-        "fr": "Destination"
+        "fr": "Destination",
+        "de": "Ziel",
+        "es": "Destino"
       },
       "placeholder": {
         "en": "1 avenue des Champs-Élysées, Paris",
-        "fr": "1 avenue des Champs-Élysées, Paris"
+        "fr": "1 avenue des Champs-Élysées, Paris",
+        "de": "1 avenue des Champs-Élysées, Paris",
+        "es": "1 avenue des Champs-Élysées, Paris"
       },
       "required": false
     },
@@ -250,11 +340,15 @@
       "type": "section",
       "label": {
         "en": "Route 3",
-        "fr": "Trajet 3"
+        "fr": "Trajet 3",
+        "de": "Strecke 3",
+        "es": "Trayecto 3"
       },
       "description": {
         "en": "Optional extra route, same format as route 1.",
-        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1."
+        "fr": "Trajet supplémentaire facultatif, même format que le trajet 1.",
+        "de": "Optionale zusätzliche Strecke, gleiches Format wie Strecke 1.",
+        "es": "Trayecto adicional opcional, mismo formato que el trayecto 1."
       }
     },
     {
@@ -262,11 +356,15 @@
       "type": "string",
       "label": {
         "en": "Name",
-        "fr": "Nom"
+        "fr": "Nom",
+        "de": "Name",
+        "es": "Nombre"
       },
       "placeholder": {
         "en": "Gym",
-        "fr": "Salle de sport"
+        "fr": "Salle de sport",
+        "de": "Fitnessstudio",
+        "es": "Gimnasio"
       },
       "required": false
     },
@@ -275,11 +373,15 @@
       "type": "string",
       "label": {
         "en": "Origin (leave empty to start from your home)",
-        "fr": "Départ (laissez vide pour partir de votre maison)"
+        "fr": "Départ (laissez vide pour partir de votre maison)",
+        "de": "Start (leer lassen, um von zu Hause loszufahren)",
+        "es": "Origen (déjelo vacío para salir de su casa)"
       },
       "placeholder": {
         "en": "48.8566, 2.3522",
-        "fr": "48.8566, 2.3522"
+        "fr": "48.8566, 2.3522",
+        "de": "48.8566, 2.3522",
+        "es": "48.8566, 2.3522"
       },
       "required": false
     },
@@ -288,15 +390,21 @@
       "type": "string",
       "label": {
         "en": "Go through (optional)",
-        "fr": "Passer par (facultatif)"
+        "fr": "Passer par (facultatif)",
+        "de": "Fahren über (optional)",
+        "es": "Pasar por (opcional)"
       },
       "description": {
         "en": "Forces the route through these places, in order, instead of the fastest way. Up to 3 places separated by \";\".",
-        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; »."
+        "fr": "Impose le passage par ces lieux, dans l'ordre, au lieu du chemin le plus rapide. Jusqu'à 3 lieux séparés par « ; ».",
+        "de": "Erzwingt die Strecke über diese Orte, in dieser Reihenfolge, statt des schnellsten Wegs. Bis zu 3 Orte, getrennt durch „;“.",
+        "es": "Obliga a pasar por estos lugares, en orden, en lugar del camino más rápido. Hasta 3 lugares separados por «;»."
       },
       "placeholder": {
         "en": "Pont de Normandie; 49.4431, 0.3601",
-        "fr": "Pont de Normandie; 49.4431, 0.3601"
+        "fr": "Pont de Normandie; 49.4431, 0.3601",
+        "de": "Pont de Normandie; 49.4431, 0.3601",
+        "es": "Pont de Normandie; 49.4431, 0.3601"
       },
       "required": false
     },
@@ -305,11 +413,15 @@
       "type": "string",
       "label": {
         "en": "Destination",
-        "fr": "Destination"
+        "fr": "Destination",
+        "de": "Ziel",
+        "es": "Destino"
       },
       "placeholder": {
         "en": "1 avenue des Champs-Élysées, Paris",
-        "fr": "1 avenue des Champs-Élysées, Paris"
+        "fr": "1 avenue des Champs-Élysées, Paris",
+        "de": "1 avenue des Champs-Élysées, Paris",
+        "es": "1 avenue des Champs-Élysées, Paris"
       },
       "required": false
     },
@@ -318,11 +430,15 @@
       "type": "section",
       "label": {
         "en": "Refresh",
-        "fr": "Actualisation"
+        "fr": "Actualisation",
+        "de": "Aktualisierung",
+        "es": "Actualización"
       },
       "description": {
         "en": "Routes are only refreshed during the active days and hours, to save your Mapbox quota. Leave them empty to refresh all the time.",
-        "fr": "Les trajets ne sont actualisés que pendant les jours et heures actifs, pour économiser votre quota Mapbox. Laissez vide pour actualiser en permanence."
+        "fr": "Les trajets ne sont actualisés que pendant les jours et heures actifs, pour économiser votre quota Mapbox. Laissez vide pour actualiser en permanence.",
+        "de": "Die Strecken werden nur an den aktiven Tagen und zu den aktiven Stunden aktualisiert, um Ihr Mapbox-Kontingent zu schonen. Leer lassen, um ständig zu aktualisieren.",
+        "es": "Los trayectos solo se actualizan durante los días y horas activos, para ahorrar su cuota de Mapbox. Déjelos vacíos para actualizar todo el tiempo."
       }
     },
     {
@@ -330,7 +446,9 @@
       "type": "number",
       "label": {
         "en": "Refresh interval (s)",
-        "fr": "Intervalle d'actualisation (s)"
+        "fr": "Intervalle d'actualisation (s)",
+        "de": "Aktualisierungsintervall (s)",
+        "es": "Intervalo de actualización (s)"
       },
       "required": false,
       "default": 300,
@@ -342,7 +460,9 @@
       "type": "multi_select",
       "label": {
         "en": "Active days (empty = every day)",
-        "fr": "Jours actifs (vide = tous les jours)"
+        "fr": "Jours actifs (vide = tous les jours)",
+        "de": "Aktive Tage (leer = jeden Tag)",
+        "es": "Días activos (vacío = todos los días)"
       },
       "required": false,
       "options": [
@@ -350,49 +470,63 @@
           "value": "mon",
           "label": {
             "en": "Monday",
-            "fr": "Lundi"
+            "fr": "Lundi",
+            "de": "Montag",
+            "es": "Lunes"
           }
         },
         {
           "value": "tue",
           "label": {
             "en": "Tuesday",
-            "fr": "Mardi"
+            "fr": "Mardi",
+            "de": "Dienstag",
+            "es": "Martes"
           }
         },
         {
           "value": "wed",
           "label": {
             "en": "Wednesday",
-            "fr": "Mercredi"
+            "fr": "Mercredi",
+            "de": "Mittwoch",
+            "es": "Miércoles"
           }
         },
         {
           "value": "thu",
           "label": {
             "en": "Thursday",
-            "fr": "Jeudi"
+            "fr": "Jeudi",
+            "de": "Donnerstag",
+            "es": "Jueves"
           }
         },
         {
           "value": "fri",
           "label": {
             "en": "Friday",
-            "fr": "Vendredi"
+            "fr": "Vendredi",
+            "de": "Freitag",
+            "es": "Viernes"
           }
         },
         {
           "value": "sat",
           "label": {
             "en": "Saturday",
-            "fr": "Samedi"
+            "fr": "Samedi",
+            "de": "Samstag",
+            "es": "Sábado"
           }
         },
         {
           "value": "sun",
           "label": {
             "en": "Sunday",
-            "fr": "Dimanche"
+            "fr": "Dimanche",
+            "de": "Sonntag",
+            "es": "Domingo"
           }
         }
       ]
@@ -402,11 +536,15 @@
       "type": "string",
       "label": {
         "en": "Active hours (empty = all day)",
-        "fr": "Heures actives (vide = toute la journée)"
+        "fr": "Heures actives (vide = toute la journée)",
+        "de": "Aktive Stunden (leer = den ganzen Tag)",
+        "es": "Horas activas (vacío = todo el día)"
       },
       "placeholder": {
         "en": "07:00-09:30, 16:30-19:00",
-        "fr": "07:00-09:30, 16:30-19:00"
+        "fr": "07:00-09:30, 16:30-19:00",
+        "de": "07:00-09:30, 16:30-19:00",
+        "es": "07:00-09:30, 16:30-19:00"
       },
       "required": false
     },
@@ -415,11 +553,15 @@
       "type": "string",
       "label": {
         "en": "Timezone",
-        "fr": "Fuseau horaire"
+        "fr": "Fuseau horaire",
+        "de": "Zeitzone",
+        "es": "Zona horaria"
       },
       "placeholder": {
         "en": "Europe/Paris",
-        "fr": "Europe/Paris"
+        "fr": "Europe/Paris",
+        "de": "Europe/Paris",
+        "es": "Europe/Paris"
       },
       "required": false,
       "default": "Europe/Paris"
@@ -429,7 +571,9 @@
       "type": "multi_select",
       "label": {
         "en": "Avoid",
-        "fr": "Éviter"
+        "fr": "Éviter",
+        "de": "Vermeiden",
+        "es": "Evitar"
       },
       "required": false,
       "options": [
@@ -437,21 +581,27 @@
           "value": "toll",
           "label": {
             "en": "Tolls",
-            "fr": "Péages"
+            "fr": "Péages",
+            "de": "Mautstraßen",
+            "es": "Peajes"
           }
         },
         {
           "value": "motorway",
           "label": {
             "en": "Motorways",
-            "fr": "Autoroutes"
+            "fr": "Autoroutes",
+            "de": "Autobahnen",
+            "es": "Autopistas"
           }
         },
         {
           "value": "ferry",
           "label": {
             "en": "Ferries",
-            "fr": "Ferries"
+            "fr": "Ferries",
+            "de": "Fähren",
+            "es": "Ferris"
           }
         }
       ]
@@ -461,11 +611,15 @@
       "type": "section",
       "label": {
         "en": "Alerts",
-        "fr": "Alertes"
+        "fr": "Alertes",
+        "de": "Warnungen",
+        "es": "Alertas"
       },
       "description": {
         "en": "A traffic jam is detected when at least the given share of the route is in heavy congestion. The travel time is abnormally long when it exceeds the usual one by both the given percentage and the given number of minutes. Both fire scene triggers.",
-        "fr": "Un embouteillage est détecté quand au moins la part indiquée du trajet est en circulation dense. La durée est anormalement longue quand elle dépasse la durée habituelle à la fois du pourcentage et du nombre de minutes indiqués. Les deux déclenchent des scènes."
+        "fr": "Un embouteillage est détecté quand au moins la part indiquée du trajet est en circulation dense. La durée est anormalement longue quand elle dépasse la durée habituelle à la fois du pourcentage et du nombre de minutes indiqués. Les deux déclenchent des scènes.",
+        "de": "Ein Stau wird erkannt, wenn mindestens der angegebene Anteil der Strecke stark verstopft ist. Die Fahrzeit ist ungewöhnlich lang, wenn sie die übliche sowohl um den angegebenen Prozentsatz als auch um die angegebene Anzahl Minuten überschreitet. Beides löst Szenen aus.",
+        "es": "Se detecta un atasco cuando al menos la parte indicada del trayecto tiene tráfico denso. La duración es anormalmente larga cuando supera la habitual tanto en el porcentaje como en el número de minutos indicados. Ambos activan escenas."
       }
     },
     {
@@ -473,7 +627,9 @@
       "type": "number",
       "label": {
         "en": "Traffic jam: congested share of the route (%)",
-        "fr": "Embouteillage : part du trajet encombrée (%)"
+        "fr": "Embouteillage : part du trajet encombrée (%)",
+        "de": "Stau: verstopfter Anteil der Strecke (%)",
+        "es": "Atasco: parte congestionada del trayecto (%)"
       },
       "required": false,
       "default": 10,
@@ -485,7 +641,9 @@
       "type": "number",
       "label": {
         "en": "Abnormal: longer than usual by (%)",
-        "fr": "Anormal : plus long que d'habitude de (%)"
+        "fr": "Anormal : plus long que d'habitude de (%)",
+        "de": "Ungewöhnlich: länger als üblich um (%)",
+        "es": "Anormal: más largo de lo habitual en (%)"
       },
       "required": false,
       "default": 30,
@@ -497,7 +655,9 @@
       "type": "number",
       "label": {
         "en": "Abnormal: and at least (min) late",
-        "fr": "Anormal : et au moins (min) de retard"
+        "fr": "Anormal : et au moins (min) de retard",
+        "de": "Ungewöhnlich: mind. (min) Verspätung",
+        "es": "Anormal: y al menos (min) de retraso"
       },
       "required": false,
       "default": 5,
@@ -510,7 +670,9 @@
       "key": "test_connection",
       "label": {
         "en": "Test Mapbox",
-        "fr": "Tester Mapbox"
+        "fr": "Tester Mapbox",
+        "de": "Mapbox testen",
+        "es": "Probar Mapbox"
       },
       "timeout_seconds": 30
     },
@@ -518,7 +680,9 @@
       "key": "refresh_now",
       "label": {
         "en": "Refresh the routes now",
-        "fr": "Actualiser les trajets maintenant"
+        "fr": "Actualiser les trajets maintenant",
+        "de": "Strecken jetzt aktualisieren",
+        "es": "Actualizar los trayectos ahora"
       },
       "timeout_seconds": 60
     }
@@ -528,7 +692,9 @@
       "key": "traffic_jam_started",
       "label": {
         "en": "Traffic jam on a route",
-        "fr": "Embouteillage sur un trajet"
+        "fr": "Embouteillage sur un trajet",
+        "de": "Stau auf einer Strecke",
+        "es": "Atasco en un trayecto"
       },
       "fields": [
         {
@@ -537,7 +703,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": false
         },
@@ -546,7 +714,9 @@
           "type": "multi_select",
           "label": {
             "en": "Level",
-            "fr": "Niveau"
+            "fr": "Niveau",
+            "de": "Stufe",
+            "es": "Nivel"
           },
           "required": false,
           "options": [
@@ -554,14 +724,18 @@
               "value": "heavy",
               "label": {
                 "en": "Traffic jam",
-                "fr": "Embouteillage"
+                "fr": "Embouteillage",
+                "de": "Stau",
+                "es": "Atasco"
               }
             },
             {
               "value": "severe",
               "label": {
                 "en": "Severe jam",
-                "fr": "Bouchon important"
+                "fr": "Bouchon important",
+                "de": "Schwerer Stau",
+                "es": "Atasco grave"
               }
             }
           ]
@@ -573,7 +747,9 @@
           "type": "string",
           "label": {
             "en": "Route name",
-            "fr": "Nom du trajet"
+            "fr": "Nom du trajet",
+            "de": "Name der Strecke",
+            "es": "Nombre del trayecto"
           }
         },
         {
@@ -581,7 +757,9 @@
           "type": "string",
           "label": {
             "en": "Traffic level (fluid, moderate, heavy, severe)",
-            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)",
+            "de": "Verkehrslage (fluid, moderate, heavy, severe)",
+            "es": "Nivel de tráfico (fluid, moderate, heavy, severe)"
           }
         },
         {
@@ -589,7 +767,9 @@
           "type": "number",
           "label": {
             "en": "Travel time (min)",
-            "fr": "Durée du trajet (min)"
+            "fr": "Durée du trajet (min)",
+            "de": "Fahrzeit (min)",
+            "es": "Duración del trayecto (min)"
           }
         },
         {
@@ -597,7 +777,9 @@
           "type": "number",
           "label": {
             "en": "Usual travel time (min)",
-            "fr": "Durée habituelle (min)"
+            "fr": "Durée habituelle (min)",
+            "de": "Übliche Fahrzeit (min)",
+            "es": "Duración habitual (min)"
           }
         },
         {
@@ -605,7 +787,9 @@
           "type": "number",
           "label": {
             "en": "Delay (min)",
-            "fr": "Retard (min)"
+            "fr": "Retard (min)",
+            "de": "Verspätung (min)",
+            "es": "Retraso (min)"
           }
         },
         {
@@ -613,7 +797,9 @@
           "type": "number",
           "label": {
             "en": "Delay (%)",
-            "fr": "Retard (%)"
+            "fr": "Retard (%)",
+            "de": "Verspätung (%)",
+            "es": "Retraso (%)"
           }
         },
         {
@@ -621,7 +807,9 @@
           "type": "number",
           "label": {
             "en": "Congested share (%)",
-            "fr": "Part encombrée (%)"
+            "fr": "Part encombrée (%)",
+            "de": "Verstopfter Anteil (%)",
+            "es": "Parte congestionada (%)"
           }
         },
         {
@@ -629,7 +817,9 @@
           "type": "number",
           "label": {
             "en": "Distance (km)",
-            "fr": "Distance (km)"
+            "fr": "Distance (km)",
+            "de": "Entfernung (km)",
+            "es": "Distancia (km)"
           }
         },
         {
@@ -637,7 +827,9 @@
           "type": "string",
           "label": {
             "en": "Main roads",
-            "fr": "Routes principales"
+            "fr": "Routes principales",
+            "de": "Hauptstraßen",
+            "es": "Carreteras principales"
           }
         },
         {
@@ -645,7 +837,9 @@
           "type": "string",
           "label": {
             "en": "Summary",
-            "fr": "Résumé"
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
           }
         }
       ]
@@ -654,7 +848,9 @@
       "key": "traffic_jam_ended",
       "label": {
         "en": "Traffic jam cleared on a route",
-        "fr": "Fin d'embouteillage sur un trajet"
+        "fr": "Fin d'embouteillage sur un trajet",
+        "de": "Stau auf einer Strecke aufgelöst",
+        "es": "Fin del atasco en un trayecto"
       },
       "fields": [
         {
@@ -663,7 +859,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": false
         }
@@ -674,7 +872,9 @@
           "type": "string",
           "label": {
             "en": "Route name",
-            "fr": "Nom du trajet"
+            "fr": "Nom du trajet",
+            "de": "Name der Strecke",
+            "es": "Nombre del trayecto"
           }
         },
         {
@@ -682,7 +882,9 @@
           "type": "string",
           "label": {
             "en": "Traffic level (fluid, moderate, heavy, severe)",
-            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)",
+            "de": "Verkehrslage (fluid, moderate, heavy, severe)",
+            "es": "Nivel de tráfico (fluid, moderate, heavy, severe)"
           }
         },
         {
@@ -690,7 +892,9 @@
           "type": "number",
           "label": {
             "en": "Travel time (min)",
-            "fr": "Durée du trajet (min)"
+            "fr": "Durée du trajet (min)",
+            "de": "Fahrzeit (min)",
+            "es": "Duración del trayecto (min)"
           }
         },
         {
@@ -698,7 +902,9 @@
           "type": "number",
           "label": {
             "en": "Usual travel time (min)",
-            "fr": "Durée habituelle (min)"
+            "fr": "Durée habituelle (min)",
+            "de": "Übliche Fahrzeit (min)",
+            "es": "Duración habitual (min)"
           }
         },
         {
@@ -706,7 +912,9 @@
           "type": "number",
           "label": {
             "en": "Delay (min)",
-            "fr": "Retard (min)"
+            "fr": "Retard (min)",
+            "de": "Verspätung (min)",
+            "es": "Retraso (min)"
           }
         },
         {
@@ -714,7 +922,9 @@
           "type": "number",
           "label": {
             "en": "Delay (%)",
-            "fr": "Retard (%)"
+            "fr": "Retard (%)",
+            "de": "Verspätung (%)",
+            "es": "Retraso (%)"
           }
         },
         {
@@ -722,7 +932,9 @@
           "type": "number",
           "label": {
             "en": "Congested share (%)",
-            "fr": "Part encombrée (%)"
+            "fr": "Part encombrée (%)",
+            "de": "Verstopfter Anteil (%)",
+            "es": "Parte congestionada (%)"
           }
         },
         {
@@ -730,7 +942,9 @@
           "type": "number",
           "label": {
             "en": "Distance (km)",
-            "fr": "Distance (km)"
+            "fr": "Distance (km)",
+            "de": "Entfernung (km)",
+            "es": "Distancia (km)"
           }
         },
         {
@@ -738,7 +952,9 @@
           "type": "string",
           "label": {
             "en": "Main roads",
-            "fr": "Routes principales"
+            "fr": "Routes principales",
+            "de": "Hauptstraßen",
+            "es": "Carreteras principales"
           }
         },
         {
@@ -746,7 +962,9 @@
           "type": "string",
           "label": {
             "en": "Summary",
-            "fr": "Résumé"
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
           }
         }
       ]
@@ -755,7 +973,9 @@
       "key": "abnormal_duration_started",
       "label": {
         "en": "Abnormally long travel time",
-        "fr": "Durée de trajet anormalement longue"
+        "fr": "Durée de trajet anormalement longue",
+        "de": "Ungewöhnlich lange Fahrzeit",
+        "es": "Duración del trayecto anormalmente larga"
       },
       "fields": [
         {
@@ -764,7 +984,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": false
         }
@@ -775,7 +997,9 @@
           "type": "string",
           "label": {
             "en": "Route name",
-            "fr": "Nom du trajet"
+            "fr": "Nom du trajet",
+            "de": "Name der Strecke",
+            "es": "Nombre del trayecto"
           }
         },
         {
@@ -783,7 +1007,9 @@
           "type": "string",
           "label": {
             "en": "Traffic level (fluid, moderate, heavy, severe)",
-            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)",
+            "de": "Verkehrslage (fluid, moderate, heavy, severe)",
+            "es": "Nivel de tráfico (fluid, moderate, heavy, severe)"
           }
         },
         {
@@ -791,7 +1017,9 @@
           "type": "number",
           "label": {
             "en": "Travel time (min)",
-            "fr": "Durée du trajet (min)"
+            "fr": "Durée du trajet (min)",
+            "de": "Fahrzeit (min)",
+            "es": "Duración del trayecto (min)"
           }
         },
         {
@@ -799,7 +1027,9 @@
           "type": "number",
           "label": {
             "en": "Usual travel time (min)",
-            "fr": "Durée habituelle (min)"
+            "fr": "Durée habituelle (min)",
+            "de": "Übliche Fahrzeit (min)",
+            "es": "Duración habitual (min)"
           }
         },
         {
@@ -807,7 +1037,9 @@
           "type": "number",
           "label": {
             "en": "Delay (min)",
-            "fr": "Retard (min)"
+            "fr": "Retard (min)",
+            "de": "Verspätung (min)",
+            "es": "Retraso (min)"
           }
         },
         {
@@ -815,7 +1047,9 @@
           "type": "number",
           "label": {
             "en": "Delay (%)",
-            "fr": "Retard (%)"
+            "fr": "Retard (%)",
+            "de": "Verspätung (%)",
+            "es": "Retraso (%)"
           }
         },
         {
@@ -823,7 +1057,9 @@
           "type": "number",
           "label": {
             "en": "Congested share (%)",
-            "fr": "Part encombrée (%)"
+            "fr": "Part encombrée (%)",
+            "de": "Verstopfter Anteil (%)",
+            "es": "Parte congestionada (%)"
           }
         },
         {
@@ -831,7 +1067,9 @@
           "type": "number",
           "label": {
             "en": "Distance (km)",
-            "fr": "Distance (km)"
+            "fr": "Distance (km)",
+            "de": "Entfernung (km)",
+            "es": "Distancia (km)"
           }
         },
         {
@@ -839,7 +1077,9 @@
           "type": "string",
           "label": {
             "en": "Main roads",
-            "fr": "Routes principales"
+            "fr": "Routes principales",
+            "de": "Hauptstraßen",
+            "es": "Carreteras principales"
           }
         },
         {
@@ -847,7 +1087,9 @@
           "type": "string",
           "label": {
             "en": "Summary",
-            "fr": "Résumé"
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
           }
         }
       ]
@@ -856,7 +1098,9 @@
       "key": "abnormal_duration_ended",
       "label": {
         "en": "Travel time back to normal",
-        "fr": "Durée de trajet revenue à la normale"
+        "fr": "Durée de trajet revenue à la normale",
+        "de": "Fahrzeit wieder normal",
+        "es": "Duración del trayecto de nuevo normal"
       },
       "fields": [
         {
@@ -865,7 +1109,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": false
         }
@@ -876,7 +1122,9 @@
           "type": "string",
           "label": {
             "en": "Route name",
-            "fr": "Nom du trajet"
+            "fr": "Nom du trajet",
+            "de": "Name der Strecke",
+            "es": "Nombre del trayecto"
           }
         },
         {
@@ -884,7 +1132,9 @@
           "type": "string",
           "label": {
             "en": "Traffic level (fluid, moderate, heavy, severe)",
-            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)"
+            "fr": "Niveau de trafic (fluid, moderate, heavy, severe)",
+            "de": "Verkehrslage (fluid, moderate, heavy, severe)",
+            "es": "Nivel de tráfico (fluid, moderate, heavy, severe)"
           }
         },
         {
@@ -892,7 +1142,9 @@
           "type": "number",
           "label": {
             "en": "Travel time (min)",
-            "fr": "Durée du trajet (min)"
+            "fr": "Durée du trajet (min)",
+            "de": "Fahrzeit (min)",
+            "es": "Duración del trayecto (min)"
           }
         },
         {
@@ -900,7 +1152,9 @@
           "type": "number",
           "label": {
             "en": "Usual travel time (min)",
-            "fr": "Durée habituelle (min)"
+            "fr": "Durée habituelle (min)",
+            "de": "Übliche Fahrzeit (min)",
+            "es": "Duración habitual (min)"
           }
         },
         {
@@ -908,7 +1162,9 @@
           "type": "number",
           "label": {
             "en": "Delay (min)",
-            "fr": "Retard (min)"
+            "fr": "Retard (min)",
+            "de": "Verspätung (min)",
+            "es": "Retraso (min)"
           }
         },
         {
@@ -916,7 +1172,9 @@
           "type": "number",
           "label": {
             "en": "Delay (%)",
-            "fr": "Retard (%)"
+            "fr": "Retard (%)",
+            "de": "Verspätung (%)",
+            "es": "Retraso (%)"
           }
         },
         {
@@ -924,7 +1182,9 @@
           "type": "number",
           "label": {
             "en": "Congested share (%)",
-            "fr": "Part encombrée (%)"
+            "fr": "Part encombrée (%)",
+            "de": "Verstopfter Anteil (%)",
+            "es": "Parte congestionada (%)"
           }
         },
         {
@@ -932,7 +1192,9 @@
           "type": "number",
           "label": {
             "en": "Distance (km)",
-            "fr": "Distance (km)"
+            "fr": "Distance (km)",
+            "de": "Entfernung (km)",
+            "es": "Distancia (km)"
           }
         },
         {
@@ -940,7 +1202,9 @@
           "type": "string",
           "label": {
             "en": "Main roads",
-            "fr": "Routes principales"
+            "fr": "Routes principales",
+            "de": "Hauptstraßen",
+            "es": "Carreteras principales"
           }
         },
         {
@@ -948,7 +1212,9 @@
           "type": "string",
           "label": {
             "en": "Summary",
-            "fr": "Résumé"
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
           }
         }
       ]
@@ -959,7 +1225,9 @@
       "key": "get_travel_time",
       "label": {
         "en": "Get the travel time of a route",
-        "fr": "Obtenir la durée d'un trajet"
+        "fr": "Obtenir la durée d'un trajet",
+        "de": "Fahrzeit einer Strecke abrufen",
+        "es": "Obtener la duración de un trayecto"
       },
       "timeout_seconds": 30,
       "fields": [
@@ -969,7 +1237,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": true
         }
@@ -980,7 +1250,9 @@
           "type": "string",
           "label": {
             "en": "Route name",
-            "fr": "Nom du trajet"
+            "fr": "Nom du trajet",
+            "de": "Name der Strecke",
+            "es": "Nombre del trayecto"
           }
         },
         {
@@ -988,7 +1260,9 @@
           "type": "number",
           "label": {
             "en": "Travel time (min)",
-            "fr": "Durée du trajet (min)"
+            "fr": "Durée du trajet (min)",
+            "de": "Fahrzeit (min)",
+            "es": "Duración del trayecto (min)"
           }
         },
         {
@@ -996,7 +1270,9 @@
           "type": "number",
           "label": {
             "en": "Usual travel time (min)",
-            "fr": "Durée habituelle (min)"
+            "fr": "Durée habituelle (min)",
+            "de": "Übliche Fahrzeit (min)",
+            "es": "Duración habitual (min)"
           }
         },
         {
@@ -1004,7 +1280,9 @@
           "type": "number",
           "label": {
             "en": "Delay (min)",
-            "fr": "Retard (min)"
+            "fr": "Retard (min)",
+            "de": "Verspätung (min)",
+            "es": "Retraso (min)"
           }
         },
         {
@@ -1012,7 +1290,9 @@
           "type": "number",
           "label": {
             "en": "Distance (km)",
-            "fr": "Distance (km)"
+            "fr": "Distance (km)",
+            "de": "Entfernung (km)",
+            "es": "Distancia (km)"
           }
         },
         {
@@ -1020,7 +1300,9 @@
           "type": "number",
           "label": {
             "en": "Traffic level (0-3)",
-            "fr": "Niveau de trafic (0-3)"
+            "fr": "Niveau de trafic (0-3)",
+            "de": "Verkehrslage (0-3)",
+            "es": "Nivel de tráfico (0-3)"
           }
         },
         {
@@ -1028,7 +1310,9 @@
           "type": "string",
           "label": {
             "en": "Traffic status",
-            "fr": "État du trafic"
+            "fr": "État du trafic",
+            "de": "Verkehrszustand",
+            "es": "Estado del tráfico"
           }
         },
         {
@@ -1036,7 +1320,9 @@
           "type": "boolean",
           "label": {
             "en": "Traffic jam",
-            "fr": "Embouteillage"
+            "fr": "Embouteillage",
+            "de": "Stau",
+            "es": "Atasco"
           }
         },
         {
@@ -1044,7 +1330,9 @@
           "type": "boolean",
           "label": {
             "en": "Abnormally long",
-            "fr": "Anormalement long"
+            "fr": "Anormalement long",
+            "de": "Ungewöhnlich lang",
+            "es": "Anormalmente largo"
           }
         },
         {
@@ -1052,7 +1340,9 @@
           "type": "string",
           "label": {
             "en": "Main roads",
-            "fr": "Routes principales"
+            "fr": "Routes principales",
+            "de": "Hauptstraßen",
+            "es": "Carreteras principales"
           }
         },
         {
@@ -1060,7 +1350,9 @@
           "type": "string",
           "label": {
             "en": "Summary",
-            "fr": "Résumé"
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
           }
         }
       ]
@@ -1071,7 +1363,9 @@
       "key": "travel_time",
       "label": {
         "en": "Travel time",
-        "fr": "Durée de trajet"
+        "fr": "Durée de trajet",
+        "de": "Fahrzeit",
+        "es": "Duración del trayecto"
       },
       "icon": "navigation",
       "settings": [
@@ -1081,7 +1375,9 @@
           "source": "devices",
           "label": {
             "en": "Route",
-            "fr": "Trajet"
+            "fr": "Trajet",
+            "de": "Strecke",
+            "es": "Trayecto"
           },
           "required": true
         },
@@ -1090,7 +1386,9 @@
           "type": "select",
           "label": {
             "en": "Chart period",
-            "fr": "Période du graphique"
+            "fr": "Période du graphique",
+            "de": "Diagrammzeitraum",
+            "es": "Periodo del gráfico"
           },
           "required": false,
           "default": "last-day",
@@ -1099,28 +1397,36 @@
               "value": "last-twelve-hours",
               "label": {
                 "en": "Last 12 hours",
-                "fr": "12 dernières heures"
+                "fr": "12 dernières heures",
+                "de": "Letzte 12 Stunden",
+                "es": "Últimas 12 horas"
               }
             },
             {
               "value": "last-day",
               "label": {
                 "en": "Last 24 hours",
-                "fr": "24 dernières heures"
+                "fr": "24 dernières heures",
+                "de": "Letzte 24 Stunden",
+                "es": "Últimas 24 horas"
               }
             },
             {
               "value": "last-three-days",
               "label": {
                 "en": "Last 3 days",
-                "fr": "3 derniers jours"
+                "fr": "3 derniers jours",
+                "de": "Letzte 3 Tage",
+                "es": "Últimos 3 días"
               }
             },
             {
               "value": "last-week",
               "label": {
                 "en": "Last week",
-                "fr": "Dernière semaine"
+                "fr": "Dernière semaine",
+                "de": "Letzte Woche",
+                "es": "Última semana"
               }
             }
           ]

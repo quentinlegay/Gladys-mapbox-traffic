@@ -8,13 +8,15 @@
 //     "abnormally long" (the delay crosses the configured thresholds).
 // -----------------------------------------------------------------------------
 
+import { toLanguage } from './config.js';
+
 export const TRAFFIC_LEVELS = ['fluid', 'moderate', 'heavy', 'severe'];
 
 export const TRAFFIC_LEVEL_LABELS = {
-  fluid: { en: 'Fluid', fr: 'Fluide' },
-  moderate: { en: 'Moderate', fr: 'Ralenti' },
-  heavy: { en: 'Traffic jam', fr: 'Embouteillage' },
-  severe: { en: 'Severe jam', fr: 'Bouchon important' },
+  fluid: { en: 'Fluid', fr: 'Fluide', de: 'Flüssig', es: 'Fluido' },
+  moderate: { en: 'Moderate', fr: 'Ralenti', de: 'Zähflüssig', es: 'Lento' },
+  heavy: { en: 'Traffic jam', fr: 'Embouteillage', de: 'Stau', es: 'Atasco' },
+  severe: { en: 'Severe jam', fr: 'Bouchon important', de: 'Schwerer Stau', es: 'Atasco grave' },
 };
 
 // Ratio duration / typical duration from which a level is reached, used on
@@ -104,7 +106,7 @@ export function analyzeRoute(route, { fallbackTypicalSeconds, thresholds }) {
  * One-line human summary, e.g. "32 min (+7 min) · Ralenti".
  */
 export function formatSummary(analysis, language = 'fr') {
-  const lang = language === 'en' ? 'en' : 'fr';
+  const lang = toLanguage(language, 'fr');
   const delay = analysis.delayMinutes >= 1 ? ` (+${Math.round(analysis.delayMinutes)} min)` : '';
   return `${Math.round(analysis.durationMinutes)} min${delay} · ${
     TRAFFIC_LEVEL_LABELS[analysis.levelKey][lang]

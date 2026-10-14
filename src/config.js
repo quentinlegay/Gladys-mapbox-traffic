@@ -20,11 +20,24 @@ export const WEEK_DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 export const AVOID_OPTIONS = ['toll', 'motorway', 'ferry'];
 
+// Languages of the texts produced by the integration (multi-language objects
+// carry one key per language, `en` being the fallback).
+export const LANGUAGES = ['fr', 'en', 'de', 'es'];
+
+/**
+ * A supported language, or the fallback when the given one is not.
+ * @param {string} language
+ * @param {string} [fallback]
+ */
+export function toLanguage(language, fallback = 'en') {
+  return LANGUAGES.includes(language) ? language : fallback;
+}
+
 // Defaults: they MUST stay consistent with the `default` values declared in the
 // `config_schema` of the manifest.
 export const DEFAULT_CONFIG = {
   access_token: '',
-  language: 'fr', // 'fr' | 'en', language of the text states (traffic status)
+  language: 'fr', // 'fr' | 'en' | 'de' | 'es', language of the text states (traffic status)
   poll_frequency: 300, // seconds between two refreshes of every route
   active_days: [], // empty = every day
   active_hours: '', // empty = all day long, e.g. "07:00-09:30, 16:30-19:00"
@@ -78,7 +91,7 @@ export function normalizeConfig(raw = {}) {
   const normalized = {
     ...config,
     access_token: toString(raw.access_token),
-    language: raw.language === 'en' ? 'en' : 'fr',
+    language: toLanguage(raw.language, DEFAULT_CONFIG.language),
     poll_frequency: toNumber(raw.poll_frequency, DEFAULT_CONFIG.poll_frequency, {
       min: 60,
       max: 3600,
@@ -127,6 +140,9 @@ export function parseWaypoints(text) {
     .slice(0, MAX_WAYPOINTS);
 }
 
+// Default name of a route without a name, followed by its slot number.
+const ROUTE_LABELS = { en: 'Route', fr: 'Trajet', de: 'Strecke', es: 'Trayecto' };
+
 /**
  * The routes the user actually configured (a slot counts once it has a
  * destination). The origin may be empty: the home location is used then.
@@ -142,9 +158,7 @@ export function getConfiguredRoutes(config) {
       // Stable platform id: the slot number. Editing the addresses of a slot
       // keeps the same Gladys device (and its history).
       id: `route-${slot}`,
-      name:
-        config[`route_${slot}_name`] ||
-        (config.language === 'en' ? `Route ${slot}` : `Trajet ${slot}`),
+      name: config[`route_${slot}_name`] || `${ROUTE_LABELS[config.language] ?? 'Route'} ${slot}`,
       origin: config[`route_${slot}_origin`],
       waypoints: parseWaypoints(config[`route_${slot}_via`]),
       destination,

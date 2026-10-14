@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { DEFAULT_CONFIG, MAX_ROUTES, WEEK_DAYS, AVOID_OPTIONS } from '../src/config.js';
+import { DEFAULT_CONFIG, MAX_ROUTES, WEEK_DAYS, AVOID_OPTIONS, LANGUAGES } from '../src/config.js';
 import { createHandlers } from '../src/handlers.js';
 import { buildEventData, SCENE_EVENTS } from '../src/monitor.js';
 import { analyzeRoute } from '../src/traffic.js';
@@ -118,4 +118,19 @@ test('the access token is a secret and the home location is requested', () => {
 
 test('the integration is tagged as cloud-only (it relies on the Mapbox API)', () => {
   assert.deepEqual(manifest.transports, ['cloud']);
+});
+
+test('every multi-language text of the manifest is translated in every language', () => {
+  const missing = [];
+  const walk = (node, path) => {
+    if (Array.isArray(node)) node.forEach((child, i) => walk(child, `${path}[${i}]`));
+    else if (node && typeof node === 'object') {
+      if (typeof node.en === 'string') {
+        for (const language of LANGUAGES) if (!node[language]) missing.push(`${path}.${language}`);
+      } else for (const [key, child] of Object.entries(node)) walk(child, `${path}.${key}`);
+    }
+  };
+  walk(manifest, '');
+  assert.deepEqual(missing, []);
+  assert.deepEqual(optionValues('language'), LANGUAGES);
 });

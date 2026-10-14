@@ -29,13 +29,28 @@ export const FEATURE = {
 };
 
 const LABELS = {
-  [FEATURE.DURATION]: { en: 'Travel time', fr: 'Durée du trajet' },
-  [FEATURE.TYPICAL_DURATION]: { en: 'Usual travel time', fr: 'Durée habituelle' },
-  [FEATURE.DELAY]: { en: 'Delay', fr: 'Retard' },
-  [FEATURE.DISTANCE]: { en: 'Distance', fr: 'Distance' },
-  [FEATURE.TRAFFIC_LEVEL]: { en: 'Traffic level (0-3)', fr: 'Niveau de trafic (0-3)' },
-  [FEATURE.TRAFFIC_STATUS]: { en: 'Traffic', fr: 'Trafic' },
-  [FEATURE.VIA]: { en: 'Via', fr: 'Par' },
+  [FEATURE.DURATION]: {
+    en: 'Travel time',
+    fr: 'Durée du trajet',
+    de: 'Fahrzeit',
+    es: 'Duración del trayecto',
+  },
+  [FEATURE.TYPICAL_DURATION]: {
+    en: 'Usual travel time',
+    fr: 'Durée habituelle',
+    de: 'Übliche Fahrzeit',
+    es: 'Duración habitual',
+  },
+  [FEATURE.DELAY]: { en: 'Delay', fr: 'Retard', de: 'Verspätung', es: 'Retraso' },
+  [FEATURE.DISTANCE]: { en: 'Distance', fr: 'Distance', de: 'Entfernung', es: 'Distancia' },
+  [FEATURE.TRAFFIC_LEVEL]: {
+    en: 'Traffic level (0-3)',
+    fr: 'Niveau de trafic (0-3)',
+    de: 'Verkehrslage (0-3)',
+    es: 'Nivel de tráfico (0-3)',
+  },
+  [FEATURE.TRAFFIC_STATUS]: { en: 'Traffic', fr: 'Trafic', de: 'Verkehr', es: 'Tráfico' },
+  [FEATURE.VIA]: { en: 'Via', fr: 'Par', de: 'Über', es: 'Por' },
 };
 
 export function routeIds(gladys, route) {

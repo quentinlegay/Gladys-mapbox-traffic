@@ -66,7 +66,8 @@ test('the widget content is valid for the core vocabulary', async () => {
   const { handlers } = setup();
   const fetchMock = mockFetch(() => directionsResponse(jamRoute()));
   try {
-    for (const language of ['fr', 'en']) {
+    const jam = { fr: 'Embouteillage', en: 'Traffic jam', de: 'Stau', es: 'Atasco' };
+    for (const language of ['fr', 'en', 'de', 'es', 'it']) {
       const content = await handlers.widgetGet({
         settings: { route: ROUTE_DEVICE, interval: 'last-week' },
         language,
@@ -79,7 +80,8 @@ test('the widget content is valid for the core vocabulary', async () => {
       ]);
       assert.equal(chart.interval, 'last-week');
       const status = content.components.find((c) => c.type === 'status');
-      assert.equal(status.items[0].value, language === 'fr' ? 'Embouteillage' : 'Traffic jam');
+      // An unsupported language falls back to English.
+      assert.equal(status.items[0].value, jam[language] ?? jam.en);
       assert.equal(status.items[0].color, 'danger');
     }
   } finally {

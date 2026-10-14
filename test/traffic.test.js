@@ -98,4 +98,6 @@ test('formatSummary is localized', () => {
   });
   assert.equal(formatSummary(analysis, 'fr'), '40 min (+15 min) · Embouteillage');
   assert.equal(formatSummary(analysis, 'en'), '40 min (+15 min) · Traffic jam');
+  assert.equal(formatSummary(analysis, 'de'), '40 min (+15 min) · Stau');
+  assert.equal(formatSummary(analysis, 'es'), '40 min (+15 min) · Atasco');
 });

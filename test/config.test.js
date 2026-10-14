@@ -72,3 +72,13 @@ test('getConfiguredRoutes exposes the waypoints of each route', () => {
   );
   assert.deepEqual(route.waypoints, ['Rouen', 'Honfleur']);
 });
+
+test('the language is one of the supported ones, French by default', () => {
+  for (const language of ['fr', 'en', 'de', 'es']) {
+    assert.equal(normalizeConfig({ language }).language, language);
+  }
+  assert.equal(normalizeConfig({ language: 'it' }).language, 'fr');
+  assert.equal(normalizeConfig({}).language, 'fr');
+  const config = normalizeConfig({ language: 'de', route_1_destination: 'Berlin' });
+  assert.equal(getConfiguredRoutes(config)[0].name, 'Strecke 1');
+});
