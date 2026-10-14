@@ -8,8 +8,8 @@
     "de": "Echtzeit-Verkehr auf Ihren Strecken: Fahrzeit, Verspätung, Diagramme und Stauwarnungen über Mapbox.",
     "es": "Tráfico en tiempo real en sus trayectos: duración, retraso, gráficos y alertas de atascos (Mapbox)."
   },
-  "version": "1.1.1",
-  "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.1.1",
+  "version": "1.1.2",
+  "docker_image": "ghcr.io/quentinlegay/gladys-mapbox-traffic:1.1.2",
   "gladys_version": ">=5.1.0",
   "cover_image": "https://raw.githubusercontent.com/quentinlegay/Gladys-mapbox-traffic/main/cover.png",
   "categories": ["services", "notifications"],
