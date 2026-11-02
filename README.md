@@ -1,5 +1,7 @@
 # Gladys Mapbox Traffic
 
+![Mapbox Traffic for Gladys Assistant](cover.png)
+
 External integration for [Gladys Assistant](https://gladysassistant.com) that
 tracks the **travel time of your routes** (home → work…) with live traffic,
 through the [Mapbox Directions API](https://docs.mapbox.com/api/navigation/directions/).
