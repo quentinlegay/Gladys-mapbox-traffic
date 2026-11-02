@@ -4,6 +4,7 @@ import { validateWidgetContent } from '@gladysassistant/integration-sdk';
 import { createHandlers } from '../src/handlers.js';
 import { createTrafficMonitor } from '../src/monitor.js';
 import { normalizeConfig } from '../src/config.js';
+import { createUsageCounter } from '../src/usage.js';
 import { createFakeGladys } from './helpers/fakeGladys.js';
 import { directionsResponse, directionsRoute, mockFetch } from './helpers/mapboxFixtures.js';
 
@@ -310,4 +311,56 @@ test('the travel_times details name the home when the origin is empty', async ()
   } finally {
     fetchMock.restore();
   }
+});
+
+// --- "mapbox_quota" widget ---------------------------------------------------
+
+test('the quota widget shows the usage and the projection, valid in every language', async () => {
+  // A day of counting: the projection is available.
+  const usage = createUsageCounter({ path: null, now: () => new Date('2026-11-15T00:00:00Z') });
+  for (let i = 0; i < 3; i += 1) usage.record('directions');
+  const handlers = createHandlers({
+    gladys: createFakeGladys(),
+    monitor: {},
+    getConfig: () => normalizeConfig({}),
+    usage: { snapshot: () => ({ ...usage.snapshot(), since: new Date('2026-11-01T00:00:00Z') }) },
+  });
+  for (const language of ['fr', 'en', 'de', 'es', 'it']) {
+    const content = await handlers.quotaWidgetGet({ language });
+    assert.deepEqual(validateWidgetContent(content), []);
+  }
+  const content = await handlers.quotaWidgetGet({ language: 'fr' });
+  assert.equal(content.components[0].text, 'Novembre 2026');
+  assert.match(content.components[1].text, /^Compté depuis le 1 nov\./);
+  const [directions, geocoding] = content.components.filter((c) => c.type === 'gauge');
+  assert.deepEqual([directions.value, directions.max, directions.color], [3, 100000, 'success']);
+  assert.equal(geocoding.value, 0);
+  const link = content.components.find((c) => c.type === 'button');
+  assert.equal(link.link.url, 'https://account.mapbox.com/');
+});
+
+test('the quota gauge warns at 80 % of the free tier, projection included', async () => {
+  const snapshot = (used, projected) => ({
+    month: '2026-11',
+    since: new Date('2026-11-01T00:00:00Z'),
+    apis: {
+      directions: { used, free: 100000, projected },
+      geocoding: { used: 0, free: 100000, projected: null },
+    },
+  });
+  const colorOf = async (used, projected) => {
+    const handlers = createHandlers({
+      gladys: createFakeGladys(),
+      monitor: {},
+      getConfig: () => normalizeConfig({}),
+      usage: { snapshot: () => snapshot(used, projected) },
+    });
+    const content = await handlers.quotaWidgetGet({ language: 'en' });
+    const status = content.components.find((c) => c.type === 'status');
+    return [content.components.find((c) => c.type === 'gauge').color, status.items[1].value];
+  };
+  assert.deepEqual(await colorOf(10000, 30000), ['success', '≈ 30,000 (30 %)']);
+  assert.deepEqual(await colorOf(40000, 85000), ['warning', '≈ 85,000 (85 %)']);
+  assert.deepEqual(await colorOf(60000, 120000), ['danger', '≈ 120,000 (120 %)']);
+  assert.deepEqual(await colorOf(5, null), ['success', 'Too early to estimate']);
 });

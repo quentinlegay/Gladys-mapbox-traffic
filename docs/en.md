@@ -29,6 +29,9 @@ Plus:
   the traffic. Tapping a route shows its details (path, usual duration,
   congested share) and a Google Maps link; the "Refresh all" button refreshes
   every route shown;
+- a **widget** "Mapbox quota": the requests of the month against the free
+  tier (routes and geocoding gauges) and the estimate for the end of the month
+  at the current pace;
 - four **scene triggers**: _Traffic jam on a route_, _Traffic jam cleared_,
   _Abnormally long travel time_, _Travel time back to normal_;
 - a **scene action** _Get the travel time of a route_, e.g. to send "32 min (+7
@@ -77,6 +80,12 @@ For example, 3 routes refreshed every 5 minutes for 5 hours each working day
 use about 4,000 requests a month, and about 26,000 when refreshed all day long:
 both stay within the free plan. Refreshing 3 routes every minute, 24/7, uses
 about 130,000 requests and goes over it.
+
+The **Mapbox quota** widget follows the usage: the integration counts its own
+successful requests (the counter is kept in `/data` and starts over every
+month, in UTC) and estimates the end of the month from them. It is an estimate:
+your Mapbox account is the reference, and it also counts the other apps using
+the same account.
 
 Your actual usage is shown in your [Mapbox account](https://account.mapbox.com/).
 

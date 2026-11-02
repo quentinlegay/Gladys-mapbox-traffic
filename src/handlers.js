@@ -13,6 +13,7 @@ import { fetchRoute } from './mapbox.js';
 import { isWithinActiveWindow } from './schedule.js';
 import { TRAFFIC_LEVEL_LABELS, formatSummary } from './traffic.js';
 import {
+  buildQuotaContent,
   buildTravelTimesContent,
   buildWidgetContent,
   LIST_WIDGET_REFRESH_ACTION,
@@ -41,9 +42,10 @@ const NO_TOKEN = {
  * @param {object} deps.gladys
  * @param {ReturnType<import('./monitor.js').createTrafficMonitor>} deps.monitor
  * @param {() => object} deps.getConfig
+ * @param {ReturnType<import('./usage.js').createUsageCounter>} [deps.usage]
  * @param {() => Date} [deps.now]
  */
-export function createHandlers({ gladys, monitor, getConfig, now = () => new Date() }) {
+export function createHandlers({ gladys, monitor, getConfig, usage, now = () => new Date() }) {
   function requireRoute(deviceExternalId) {
     const route = findRouteByDeviceId(gladys, getConfig(), deviceExternalId);
     if (!route) throw new Error(`Unknown route: ${deviceExternalId}`);
@@ -196,6 +198,15 @@ export function createHandlers({ gladys, monitor, getConfig, now = () => new Dat
         language,
         timezone: config.timezone,
         now: now(),
+        ttlSeconds: WIDGET_TTL_SECONDS,
+      });
+    },
+
+    async quotaWidgetGet({ language }) {
+      return buildQuotaContent({
+        snapshot: usage.snapshot(),
+        language,
+        timezone: getConfig().timezone,
         ttlSeconds: WIDGET_TTL_SECONDS,
       });
     },

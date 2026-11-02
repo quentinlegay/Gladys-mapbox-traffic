@@ -30,6 +30,9 @@ Plus :
   retard coloré selon le trafic. Toucher un trajet affiche le détail (chemin,
   durée habituelle, part encombrée) et un lien Google Maps ; le bouton « Tout
   actualiser » relance tous les trajets affichés ;
+- un **widget** « Quota Mapbox » : les requêtes du mois face à l'offre
+  gratuite (jauges itinéraires et géocodage) et l'estimation en fin de mois au
+  rythme actuel ;
 - quatre **déclencheurs de scène** : _Embouteillage sur un trajet_, _Fin
   d'embouteillage_, _Durée de trajet anormalement longue_, _Durée revenue à la
   normale_ ;
@@ -84,6 +87,12 @@ ouvré consomment environ 4 000 requêtes par mois, et environ 26 000 s'ils sont
 actualisés 24 h/24 : les deux restent dans l'offre gratuite. Actualiser 3
 trajets chaque minute, 24 h/24, consomme environ 130 000 requêtes et la
 dépasse.
+
+Le widget **Quota Mapbox** suit la consommation : l'intégration compte ses
+propres requêtes réussies (le compteur est conservé dans `/data` et repart de
+zéro chaque mois, en UTC) et en déduit une estimation de fin de mois. C'est une
+estimation : votre [compte Mapbox](https://account.mapbox.com/) fait foi, et il
+compte aussi les autres applications qui utilisent le même compte.
 
 Votre consommation réelle est visible dans votre
 [compte Mapbox](https://account.mapbox.com/).

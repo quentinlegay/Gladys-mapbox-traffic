@@ -31,6 +31,9 @@ Además:
   muestran sus detalles (recorrido, duración habitual, parte congestionada) y
   un enlace a Google Maps; el botón «Actualizar todo» actualiza todos los
   trayectos mostrados;
+- un **widget** «Cuota de Mapbox»: las solicitudes del mes frente al nivel
+  gratuito (indicadores de rutas y geocodificación) y la estimación a fin de
+  mes al ritmo actual;
 - cuatro **disparadores de escena**: _Atasco en un trayecto_, _Fin del
   atasco_, _Duración del trayecto anormalmente larga_, _Duración del trayecto
   de nuevo normal_;
@@ -81,6 +84,12 @@ Por ejemplo, 3 trayectos actualizados cada 5 minutos durante 5 horas cada día
 laborable consumen unas 4000 solicitudes al mes, y unas 26 000 si se
 actualizan todo el día: ambos casos quedan dentro del plan gratuito. Actualizar
 3 trayectos cada minuto, 24 h/24, consume unas 130 000 solicitudes y lo supera.
+
+El widget **Cuota de Mapbox** sigue el consumo: la integración cuenta sus
+propias solicitudes correctas (el contador se guarda en `/data` y vuelve a cero
+cada mes, en UTC) y estima a partir de ellas el final del mes. Es una
+estimación: su cuenta de Mapbox es la referencia, y también cuenta las demás
+aplicaciones que usan la misma cuenta.
 
 Su consumo real se muestra en su [cuenta de Mapbox](https://account.mapbox.com/).
 

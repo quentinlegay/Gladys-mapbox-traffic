@@ -4,7 +4,9 @@
 //     status and the chart of the travel time vs the usual one;
 //   - "travel_times": every route as a list (travel time, distance, main
 //     roads and a delay badge), each row opening the details of the route,
-//     and a "Refresh all" button.
+//     and a "Refresh all" button;
+//   - "mapbox_quota": the Mapbox requests of the month against the free
+//     tier, and the projection at the end of the month.
 //
 // The content is declarative (the core renders it with its own theme): the
 // tiles and the chart are bound to the device features, so they follow the
@@ -15,6 +17,7 @@ import { WIDGET_COLORS } from '@gladysassistant/integration-sdk';
 import { toLanguage } from './config.js';
 import { FEATURE, featureIdFromDevice } from './devices/route.js';
 import { TRAFFIC_LEVEL_LABELS } from './traffic.js';
+import { USAGE_APIS } from './usage.js';
 
 export const WIDGET_KEY = 'travel_time';
 export const WIDGET_REFRESH_ACTION = 'refresh';
@@ -23,6 +26,8 @@ export const LIST_WIDGET_KEY = 'travel_times';
 export const LIST_WIDGET_REFRESH_ACTION = 'refresh_all';
 // Rows of a `card-list` in list display (the core keeps 8 at most).
 const MAX_LIST_ITEMS = 8;
+
+export const QUOTA_WIDGET_KEY = 'mapbox_quota';
 
 export const WIDGET_INTERVALS = ['last-twelve-hours', 'last-day', 'last-three-days', 'last-week'];
 
@@ -365,6 +370,117 @@ export function buildTravelTimesContent({ entries, active, language, timezone, n
           key: LIST_WIDGET_REFRESH_ACTION,
           params: { routes: shown.map((e) => e.deviceExternalId) },
         },
+      },
+    ],
+  };
+}
+
+// --- "mapbox_quota": the requests of the month against the free tier --------
+
+const QUOTA_T = {
+  directions: { en: 'Routes', fr: 'Itinéraires', de: 'Routen', es: 'Rutas' },
+  geocoding: { en: 'Geocoding', fr: 'Géocodage', de: 'Geokodierung', es: 'Geocodificación' },
+  used: {
+    en: (api) => `${api} this month`,
+    fr: (api) => `${api} ce mois-ci`,
+    de: (api) => `${api} diesen Monat`,
+    es: (api) => `${api} este mes`,
+  },
+  projected: {
+    en: (api) => `${api} by month end`,
+    fr: (api) => `${api} en fin de mois`,
+    de: (api) => `${api} am Monatsende`,
+    es: (api) => `${api} a fin de mes`,
+  },
+  tooEarly: {
+    en: 'Too early to estimate',
+    fr: 'Trop tôt pour estimer',
+    de: 'Zu früh für eine Schätzung',
+    es: 'Demasiado pronto para estimar',
+  },
+  since: {
+    en: (date) => `Counted since ${date} · free tier: 100,000/month`,
+    fr: (date) => `Compté depuis le ${date} · offert : 100 000/mois`,
+    de: (date) => `Gezählt seit ${date} · kostenlos: 100.000/Monat`,
+    es: (date) => `Contado desde el ${date} · gratis: 100.000/mes`,
+  },
+  account: { en: 'Mapbox account', fr: 'Compte Mapbox', de: 'Mapbox-Konto', es: 'Cuenta Mapbox' },
+};
+
+// Share of the free tier from which the gauge turns orange.
+const QUOTA_WARNING_RATIO = 0.8;
+
+function quotaColor(ratio) {
+  if (ratio >= 1) return WIDGET_COLORS.DANGER;
+  if (ratio >= QUOTA_WARNING_RATIO) return WIDGET_COLORS.WARNING;
+  return WIDGET_COLORS.SUCCESS;
+}
+
+/**
+ * @param {object} options
+ * @param {ReturnType<ReturnType<typeof import('./usage.js').createUsageCounter>['snapshot']>} options.snapshot
+ * @param {string} options.language
+ * @param {string} options.timezone
+ * @param {number} options.ttlSeconds
+ */
+export function buildQuotaContent({ snapshot, language, timezone, ttlSeconds }) {
+  const lang = toLanguage(language);
+  const integer = (value) =>
+    new Intl.NumberFormat(LOCALES[lang], { maximumFractionDigits: 0 }).format(value);
+  const percent = (value, free) => `${integer((value / free) * 100)} %`;
+  const [year, month] = snapshot.month.split('-').map(Number);
+  const monthName = new Intl.DateTimeFormat(LOCALES[lang], {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(Date.UTC(year, month - 1, 15));
+  const since = new Intl.DateTimeFormat(LOCALES[lang], {
+    day: 'numeric',
+    month: 'short',
+    timeZone: timezone,
+  }).format(snapshot.since);
+
+  const gauges = [];
+  const items = [];
+  for (const api of [USAGE_APIS.DIRECTIONS, USAGE_APIS.GEOCODING]) {
+    const { used, free, projected } = snapshot.apis[api];
+    const name = QUOTA_T[api][lang];
+    gauges.push({
+      type: 'gauge',
+      value: Math.min(used, free),
+      min: 0,
+      max: free,
+      label: name,
+      color: quotaColor(Math.max(used, projected ?? 0) / free),
+    });
+    items.push({
+      label: QUOTA_T.used[lang](name),
+      value: `${integer(used)} / ${integer(free)} (${percent(used, free)})`,
+      color: quotaColor(used / free),
+    });
+    items.push({
+      label: QUOTA_T.projected[lang](name),
+      value:
+        projected === null
+          ? QUOTA_T.tooEarly[lang]
+          : `≈ ${integer(projected)} (${percent(projected, free)})`,
+      color: projected === null ? WIDGET_COLORS.NEUTRAL : quotaColor(projected / free),
+    });
+  }
+
+  return {
+    ttl_seconds: ttlSeconds,
+    components: [
+      { type: 'text', variant: 'heading', text: monthName[0].toUpperCase() + monthName.slice(1) },
+      { type: 'text', variant: 'caption', text: QUOTA_T.since[lang](since) },
+      ...gauges,
+      { type: 'status', items },
+      {
+        type: 'button',
+        label: QUOTA_T.account[lang],
+        icon: 'external-link',
+        style: 'secondary',
+        link: { url: 'https://account.mapbox.com/' },
       },
     ],
   };

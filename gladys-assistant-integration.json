@@ -1470,6 +1470,22 @@
         }
       ],
       "action_timeout_seconds": 60
+    },
+    {
+      "key": "mapbox_quota",
+      "label": {
+        "en": "Mapbox quota",
+        "fr": "Quota Mapbox",
+        "de": "Mapbox-Kontingent",
+        "es": "Cuota de Mapbox"
+      },
+      "description": {
+        "en": "Mapbox requests of the month against the free tier, and the estimate for the month end.",
+        "fr": "Requêtes Mapbox du mois face à l'offre gratuite, et l'estimation en fin de mois.",
+        "de": "Mapbox-Anfragen des Monats im Vergleich zum Gratiskontingent und Prognose zum Monatsende.",
+        "es": "Solicitudes de Mapbox del mes frente al nivel gratuito, y la estimación a fin de mes."
+      },
+      "icon": "bar-chart-2"
     }
   ]
 }

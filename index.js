@@ -18,9 +18,10 @@ import { GladysIntegration, logger } from '@gladysassistant/integration-sdk';
 import { normalizeConfig } from './src/config.js';
 import { buildDiscoveredDevices, findRouteByDeviceId } from './src/devices/index.js';
 import { createHandlers } from './src/handlers.js';
-import { MapboxError } from './src/mapbox.js';
+import { MapboxError, setUsageRecorder } from './src/mapbox.js';
 import { createTrafficMonitor } from './src/monitor.js';
-import { LIST_WIDGET_KEY, WIDGET_KEY } from './src/widget.js';
+import { createUsageCounter } from './src/usage.js';
+import { LIST_WIDGET_KEY, QUOTA_WIDGET_KEY, WIDGET_KEY } from './src/widget.js';
 
 const gladys = new GladysIntegration();
 
@@ -33,7 +34,10 @@ const monitor = createTrafficMonitor({
   getConfig,
   onRefreshResult: (error) => reportConnectionStatus(error),
 });
-const handlers = createHandlers({ gladys, monitor, getConfig });
+// Mapbox requests of the month, kept in the persistent /data volume.
+const usage = createUsageCounter({ path: '/data/usage.json', logger });
+setUsageRecorder((api) => usage.record(api));
+const handlers = createHandlers({ gladys, monitor, getConfig, usage });
 
 // --- Application-level status, shown in the Configuration screen -------------
 async function reportConnectionStatus(error = null) {
@@ -113,6 +117,7 @@ gladys.onWidgetAction(WIDGET_KEY, (actionKey, params, options) =>
   handlers.widgetAction(actionKey, params, options),
 );
 gladys.onWidgetGet(LIST_WIDGET_KEY, (options) => handlers.listWidgetGet(options));
+gladys.onWidgetGet(QUOTA_WIDGET_KEY, (options) => handlers.quotaWidgetGet(options));
 gladys.onWidgetAction(LIST_WIDGET_KEY, (actionKey, params, options) =>
   handlers.listWidgetAction(actionKey, params, options),
 );

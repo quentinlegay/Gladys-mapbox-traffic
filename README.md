@@ -8,6 +8,8 @@ réel, via l'[API Mapbox Directions](https://docs.mapbox.com/api/navigation/dire
   (fonctionnalités historisées + widget de tableau de bord) ;
 - 🧭 **Widget « Temps de trajet »** : tous les trajets d'un coup d'œil, avec
   un badge de retard et un bouton « Tout actualiser » ;
+- 📊 **Widget « Quota Mapbox »** : requêtes du mois face aux 100 000 offertes,
+  et estimation en fin de mois (compteur local conservé dans `/data`) ;
 - 🚗 **Embouteillages** détectés à partir des annotations de congestion
   Mapbox (part du trajet en circulation dense) ;
 - ⏱️ **Durée anormalement longue** par rapport à la durée typique ;
@@ -64,7 +66,8 @@ jours/heures actifs), pour chaque trajet dont l'appareil a été créé :
 │  ├─ traffic.js                     # analyse pure : retard, congestion, niveau
 │  ├─ monitor.js                     # boucle, publication des états, transitions
 │  ├─ handlers.js                    # actions, action de scène, widgets
-│  ├─ widget.js                      # contenu déclaratif des widgets « Durée de trajet » et « Temps de trajet »
+│  ├─ usage.js                       # compteur mensuel des requêtes Mapbox (/data/usage.json)
+│  ├─ widget.js                      # contenu déclaratif des widgets (trajet, liste, quota)
 │  └─ devices/
 │     ├─ index.js                    # un appareil par trajet configuré
 │     └─ route.js                    # fonctionnalités de l'appareil « trajet »
