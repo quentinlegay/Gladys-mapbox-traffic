@@ -158,3 +158,156 @@ test('refresh_now refreshes the created routes', async () => {
     fetchMock.restore();
   }
 });
+
+// --- "travel_times" widget ---------------------------------------------------
+
+function setupList({ now = new Date('2026-11-02T07:40:00Z'), ...rawConfig } = {}) {
+  const config = normalizeConfig({
+    access_token: 'pk.test',
+    route_1_name: 'Travail',
+    route_1_origin: '48.8566, 2.3522',
+    route_1_via: '48.87, 2.30',
+    route_1_destination: '48.8924, 2.2369',
+    route_2_name: 'École',
+    route_2_origin: '48.8566, 2.3522',
+    route_2_destination: '48.85, 2.35',
+    route_3_name: 'Pas créé',
+    route_3_destination: '48.80, 2.30',
+    ...rawConfig,
+  });
+  // Route 3 is configured but its device was not created: never listed.
+  const gladys = createFakeGladys({
+    devices: [{ external_id: ROUTE_DEVICE }, { external_id: ROUTE_2_DEVICE }],
+  });
+  const getConfig = () => config;
+  const monitor = createTrafficMonitor({ gladys, getConfig, now: () => now });
+  const handlers = createHandlers({ gladys, monitor, getConfig, now: () => now });
+  return { gladys, monitor, handlers };
+}
+
+const ROUTE_2_DEVICE = 'ext:mapbox-traffic:route:route-2';
+
+// Route 1 is jammed (+15 min), route 2 is fluid.
+function serveListRoutes() {
+  return mockFetch((url) =>
+    directionsResponse(
+      url.pathname.includes('2.350000,48.850000')
+        ? directionsRoute({ duration: 600, typical: 600 })
+        : jamRoute(),
+    ),
+  );
+}
+
+test('the travel_times widget lists the created routes as valid cards', async () => {
+  const { handlers } = setupList();
+  const fetchMock = serveListRoutes();
+  try {
+    for (const language of ['fr', 'en', 'de', 'es', 'it']) {
+      const content = await handlers.listWidgetGet({ settings: {}, language });
+      assert.deepEqual(validateWidgetContent(content), []);
+    }
+    const content = await handlers.listWidgetGet({ settings: {}, language: 'fr' });
+    const [caption, list, button] = content.components;
+    assert.equal(caption.text, "Mis à jour à l'instant");
+    assert.deepEqual(
+      list.items.map((item) => [item.title, item.subtitle, item.badge.text, item.badge.color]),
+      [
+        ['Travail', '40 min · 20 km · par A86, A1', '+15 min', 'danger'],
+        ['École', '10 min · 20 km · par A86, A1', "À l'heure", 'success'],
+      ],
+    );
+    assert.match(
+      list.items[0].description,
+      /^48\.8566, 2\.3522 → 48\.87, 2\.30 → 48\.8924, 2\.2369\n/,
+    );
+    assert.match(list.items[0].description, /Retard : \+15 min \(\+60 %\)/);
+    assert.equal(
+      list.items[0].links[0].url,
+      'https://www.google.com/maps/dir/?api=1&origin=48.8566%2C2.3522' +
+        '&destination=48.8924%2C2.2369&travelmode=driving&waypoints=48.87%2C2.3',
+    );
+    assert.deepEqual(button.action, {
+      key: 'refresh_all',
+      params: { routes: [ROUTE_DEVICE, ROUTE_2_DEVICE] },
+    });
+  } finally {
+    fetchMock.restore();
+  }
+});
+
+test('the travel_times widget shows only the picked routes', async () => {
+  const { handlers } = setupList();
+  const fetchMock = serveListRoutes();
+  try {
+    for (const routes of [[ROUTE_2_DEVICE], ROUTE_2_DEVICE]) {
+      const content = await handlers.listWidgetGet({ settings: { routes }, language: 'en' });
+      const list = content.components.find((c) => c.type === 'card-list');
+      assert.deepEqual(
+        list.items.map((item) => item.title),
+        ['École'],
+      );
+    }
+  } finally {
+    fetchMock.restore();
+  }
+});
+
+test('the travel_times widget explains an empty list, and a route Mapbox failed on', async () => {
+  const { handlers } = setupList({ route_1_destination: '', route_2_destination: '' });
+  const empty = await handlers.listWidgetGet({ settings: {}, language: 'fr' });
+  assert.deepEqual(validateWidgetContent(empty), []);
+  assert.match(empty.components[0].text, /Aucun trajet/);
+
+  const failing = setupList();
+  const fetchMock = mockFetch(() => ({ status: 500, body: {} }));
+  try {
+    const content = await failing.handlers.listWidgetGet({ settings: {}, language: 'fr' });
+    assert.deepEqual(validateWidgetContent(content), []);
+    const list = content.components.find((c) => c.type === 'card-list');
+    assert.deepEqual(list.items[0].badge, { text: 'Pas de relevé', color: 'neutral' });
+    assert.equal(content.components[0].text, 'Pas encore actualisé');
+  } finally {
+    fetchMock.restore();
+  }
+});
+
+test('"Refresh all" refreshes the listed routes and toasts the count', async () => {
+  const { gladys, handlers } = setupList();
+  const fetchMock = serveListRoutes();
+  try {
+    const toast = await handlers.listWidgetAction('refresh_all', {
+      routes: [ROUTE_DEVICE, ROUTE_2_DEVICE, 'ext:mapbox-traffic:route:route-3'],
+    });
+    assert.equal(toast.fr, '2 trajet(s) actualisé(s).');
+  } finally {
+    fetchMock.restore();
+  }
+  const devices = new Set(
+    gladys.published.map((p) => p.featureExternalId.split(':').slice(0, 4).join(':')),
+  );
+  assert.deepEqual([...devices].sort(), [ROUTE_DEVICE, ROUTE_2_DEVICE]);
+  await assert.rejects(() => handlers.listWidgetAction('nope', {}), /Unknown widget action/);
+});
+
+test('"Refresh all" fails only when every route fails', async () => {
+  const { handlers } = setupList();
+  const fetchMock = mockFetch(() => ({ status: 500, body: {} }));
+  try {
+    await assert.rejects(() => handlers.listWidgetAction('refresh_all', {}), /Mapbox HTTP 500/);
+  } finally {
+    fetchMock.restore();
+  }
+});
+
+test('the travel_times details name the home when the origin is empty', async () => {
+  const { monitor, handlers } = setupList({ route_1_origin: '' });
+  monitor.setHome({ latitude: 48.8566, longitude: 2.3522 });
+  const fetchMock = serveListRoutes();
+  try {
+    const content = await handlers.listWidgetGet({ settings: {}, language: 'fr' });
+    const list = content.components.find((c) => c.type === 'card-list');
+    assert.match(list.items[0].description, /^Maison → 48\.87, 2\.30 → /);
+  } finally {
+    fetchMock.restore();
+  }
+});

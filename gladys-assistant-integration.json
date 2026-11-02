@@ -1433,6 +1433,43 @@
         }
       ],
       "action_timeout_seconds": 30
+    },
+    {
+      "key": "travel_times",
+      "label": {
+        "en": "Travel times",
+        "fr": "Temps de trajet",
+        "de": "Fahrzeiten",
+        "es": "Tiempos de trayecto"
+      },
+      "description": {
+        "en": "Your routes at a glance: travel time, distance, main roads, delay, and a refresh button.",
+        "fr": "Vos trajets d'un coup d'œil : durée, distance, routes, retard et un bouton d'actualisation.",
+        "de": "Ihre Strecken auf einen Blick: Fahrzeit, Entfernung, Straßen, Verspätung, Aktualisieren.",
+        "es": "Sus trayectos de un vistazo: duración, distancia, carreteras, retraso y un botón de actualizar."
+      },
+      "icon": "navigation",
+      "settings": [
+        {
+          "key": "routes",
+          "type": "multi_select",
+          "source": "devices",
+          "label": {
+            "en": "Routes",
+            "fr": "Trajets",
+            "de": "Strecken",
+            "es": "Trayectos"
+          },
+          "description": {
+            "en": "Empty: every route.",
+            "fr": "Vide : tous les trajets.",
+            "de": "Leer: alle Strecken.",
+            "es": "Vacío: todos los trayectos."
+          },
+          "required": false
+        }
+      ],
+      "action_timeout_seconds": 60
     }
   ]
 }

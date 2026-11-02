@@ -25,6 +25,11 @@ Plus :
 - un **widget de tableau de bord** « Durée de trajet » : durée, retard,
   graphique durée actuelle vs durée habituelle, état du trafic et bouton
   « Actualiser » ;
+- un **widget** « Temps de trajet » qui liste tous vos trajets (ou ceux choisis
+  dans ses réglages) : durée, distance, routes principales et un badge de
+  retard coloré selon le trafic. Toucher un trajet affiche le détail (chemin,
+  durée habituelle, part encombrée) et un lien Google Maps ; le bouton « Tout
+  actualiser » relance tous les trajets affichés ;
 - quatre **déclencheurs de scène** : _Embouteillage sur un trajet_, _Fin
   d'embouteillage_, _Durée de trajet anormalement longue_, _Durée revenue à la
   normale_ ;

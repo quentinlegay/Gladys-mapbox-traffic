@@ -20,7 +20,7 @@ import { buildDiscoveredDevices, findRouteByDeviceId } from './src/devices/index
 import { createHandlers } from './src/handlers.js';
 import { MapboxError } from './src/mapbox.js';
 import { createTrafficMonitor } from './src/monitor.js';
-import { WIDGET_KEY } from './src/widget.js';
+import { LIST_WIDGET_KEY, WIDGET_KEY } from './src/widget.js';
 
 const gladys = new GladysIntegration();
 
@@ -107,10 +107,14 @@ for (const [key, handler] of Object.entries(handlers.sceneActions)) {
   gladys.onSceneAction(key, (fields) => handler(fields));
 }
 
-// --- Dashboard widget ----------------------------------------------------------
+// --- Dashboard widgets ---------------------------------------------------------
 gladys.onWidgetGet(WIDGET_KEY, (options) => handlers.widgetGet(options));
 gladys.onWidgetAction(WIDGET_KEY, (actionKey, params, options) =>
   handlers.widgetAction(actionKey, params, options),
+);
+gladys.onWidgetGet(LIST_WIDGET_KEY, (options) => handlers.listWidgetGet(options));
+gladys.onWidgetAction(LIST_WIDGET_KEY, (actionKey, params, options) =>
+  handlers.listWidgetAction(actionKey, params, options),
 );
 
 // --- Configuration updated by the user ---------------------------------------

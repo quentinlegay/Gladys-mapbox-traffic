@@ -8,9 +8,15 @@
 import { createLogger } from '@gladysassistant/integration-sdk';
 import { LANGUAGES, getConfiguredRoutes } from './config.js';
 import { findRouteByDeviceId } from './devices/index.js';
+import { routeIds } from './devices/route.js';
 import { fetchRoute } from './mapbox.js';
+import { isWithinActiveWindow } from './schedule.js';
 import { TRAFFIC_LEVEL_LABELS, formatSummary } from './traffic.js';
-import { buildWidgetContent } from './widget.js';
+import {
+  buildTravelTimesContent,
+  buildWidgetContent,
+  LIST_WIDGET_REFRESH_ACTION,
+} from './widget.js';
 
 const logger = createLogger({ name: 'handlers' });
 
@@ -35,12 +41,32 @@ const NO_TOKEN = {
  * @param {object} deps.gladys
  * @param {ReturnType<import('./monitor.js').createTrafficMonitor>} deps.monitor
  * @param {() => object} deps.getConfig
+ * @param {() => Date} [deps.now]
  */
-export function createHandlers({ gladys, monitor, getConfig }) {
+export function createHandlers({ gladys, monitor, getConfig, now = () => new Date() }) {
   function requireRoute(deviceExternalId) {
     const route = findRouteByDeviceId(gladys, getConfig(), deviceExternalId);
     if (!route) throw new Error(`Unknown route: ${deviceExternalId}`);
     return route;
+  }
+
+  /**
+   * The created routes picked in a "travel_times" widget (a multi_select of
+   * route devices: every route when empty), in the slot order.
+   */
+  function pickRoutes(config, deviceExternalIds) {
+    const picked = new Set(
+      (Array.isArray(deviceExternalIds)
+        ? deviceExternalIds
+        : String(deviceExternalIds ?? '').split(',')
+      )
+        .map((id) => String(id).trim())
+        .filter(Boolean),
+    );
+    return monitor
+      .monitoredRoutes(config)
+      .map((route) => ({ route, deviceExternalId: routeIds(gladys, route).device }))
+      .filter(({ deviceExternalId }) => picked.size === 0 || picked.has(deviceExternalId));
   }
 
   return {
@@ -146,6 +172,60 @@ export function createHandlers({ gladys, monitor, getConfig }) {
         timezone: config.timezone,
         ttlSeconds: WIDGET_TTL_SECONDS,
       });
+    },
+
+    async listWidgetGet({ settings = {}, language }) {
+      const config = getConfig();
+      const entries = pickRoutes(config, settings.routes);
+      // Routes never refreshed yet (outside the active window, just
+      // restarted…): compute them now so the list is not empty.
+      await Promise.all(
+        entries.map(async (entry) => {
+          entry.result = monitor.lastResult(entry.route.id);
+          if (entry.result || !config.access_token) return;
+          try {
+            entry.result = await monitor.computeRoute(entry.route, config);
+          } catch (err) {
+            logger.warn(`Widget: live computation of "${entry.route.name}" failed: ${err.message}`);
+          }
+        }),
+      );
+      return buildTravelTimesContent({
+        entries,
+        active: isWithinActiveWindow(config, now()),
+        language,
+        timezone: config.timezone,
+        now: now(),
+        ttlSeconds: WIDGET_TTL_SECONDS,
+      });
+    },
+
+    async listWidgetAction(actionKey, params = {}, { settings = {} } = {}) {
+      if (actionKey !== LIST_WIDGET_REFRESH_ACTION) {
+        throw new Error(`Unknown widget action: ${actionKey}`);
+      }
+      const config = getConfig();
+      if (!config.access_token) return NO_TOKEN;
+      const entries = pickRoutes(config, params.routes ?? settings.routes);
+      const errors = [];
+      for (const { route } of entries) {
+        try {
+          await monitor.refreshRoute(route);
+        } catch (err) {
+          logger.error(`Widget: refresh of "${route.name}" failed: ${err.message}`);
+          errors.push(err);
+        }
+      }
+      if (entries.length > 0 && errors.length === entries.length) throw errors[0];
+      const refreshed = entries.length - errors.length;
+      // A toast holds 200 characters at most.
+      const failure = errors.length > 0 ? errors[0].message.slice(0, 100) : '';
+      return {
+        en: `${refreshed} route(s) refreshed${failure ? `, ${errors.length} failed: ${failure}` : '.'}`,
+        fr: `${refreshed} trajet(s) actualisé(s)${failure ? `, ${errors.length} en échec : ${failure}` : '.'}`,
+        de: `${refreshed} Strecke(n) aktualisiert${failure ? `, ${errors.length} fehlgeschlagen: ${failure}` : '.'}`,
+        es: `${refreshed} trayecto(s) actualizado(s)${failure ? `, ${errors.length} con error: ${failure}` : '.'}`,
+      };
     },
 
     async widgetAction(actionKey, _params, { settings = {} } = {}) {

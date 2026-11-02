@@ -25,6 +25,11 @@ Außerdem:
 - ein **Dashboard-Widget** „Fahrzeit“: Dauer, Verspätung, Diagramm der
   aktuellen und der üblichen Fahrzeit, Verkehrszustand und eine Schaltfläche
   „Aktualisieren“;
+- ein **Widget** „Fahrzeiten“, das alle Ihre Strecken auflistet (oder die in
+  seinen Einstellungen gewählten): Dauer, Entfernung, Hauptstraßen und ein nach
+  Verkehr eingefärbtes Verspätungs-Abzeichen. Ein Tippen auf eine Strecke zeigt
+  die Details (Weg, übliche Dauer, gestauter Anteil) und einen Google-Maps-Link;
+  die Schaltfläche „Alle aktualisieren“ aktualisiert alle angezeigten Strecken;
 - vier **Szenen-Auslöser**: _Stau auf einer Strecke_, _Stau aufgelöst_,
   _Ungewöhnlich lange Fahrzeit_, _Fahrzeit wieder normal_;
 - eine **Szenen-Aktion** _Fahrzeit einer Strecke abrufen_, z. B. um jeden

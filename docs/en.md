@@ -24,6 +24,11 @@ Plus:
 
 - a **dashboard widget** "Travel time": duration, delay, chart of the current
   vs usual travel time, traffic status and a "Refresh" button;
+- a **widget** "Travel times" listing all your routes (or the ones picked in
+  its settings): duration, distance, main roads and a delay badge colored by
+  the traffic. Tapping a route shows its details (path, usual duration,
+  congested share) and a Google Maps link; the "Refresh all" button refreshes
+  every route shown;
 - four **scene triggers**: _Traffic jam on a route_, _Traffic jam cleared_,
   _Abnormally long travel time_, _Travel time back to normal_;
 - a **scene action** _Get the travel time of a route_, e.g. to send "32 min (+7

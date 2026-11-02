@@ -25,6 +25,12 @@ Además:
 - un **widget de panel** «Duración del trayecto»: duración, retraso, gráfico de
   la duración actual frente a la habitual, estado del tráfico y un botón
   «Actualizar»;
+- un **widget** «Tiempos de trayecto» que lista todos sus trayectos (o los
+  elegidos en sus ajustes): duración, distancia, carreteras principales y una
+  insignia de retraso coloreada según el tráfico. Al tocar un trayecto se
+  muestran sus detalles (recorrido, duración habitual, parte congestionada) y
+  un enlace a Google Maps; el botón «Actualizar todo» actualiza todos los
+  trayectos mostrados;
 - cuatro **disparadores de escena**: _Atasco en un trayecto_, _Fin del
   atasco_, _Duración del trayecto anormalmente larga_, _Duración del trayecto
   de nuevo normal_;
