@@ -22,7 +22,7 @@ Un dispositivo **trayecto** por cada trayecto configurado (hasta 3), con:
 
 Además:
 
-- un **widget de panel** «Duración del trayecto»: duración, retraso, gráfico de
+- un **widget de panel** «Trayecto»: duración, retraso, gráfico de
   la duración actual frente a la habitual, estado del tráfico y un botón
   «Actualizar»;
 - un **widget** «Tiempos de trayecto» que lista todos sus trayectos (o los

@@ -1362,10 +1362,10 @@
     {
       "key": "travel_time",
       "label": {
-        "en": "Travel time",
-        "fr": "Durée de trajet",
-        "de": "Fahrzeit",
-        "es": "Duración del trayecto"
+        "en": "Trip",
+        "fr": "Trajet",
+        "de": "Strecke",
+        "es": "Trayecto"
       },
       "icon": "navigation",
       "settings": [

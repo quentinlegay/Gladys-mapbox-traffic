@@ -140,7 +140,7 @@ export function buildWidgetContent({
       { label: T.traffic, value: TRAFFIC_LEVEL_LABELS[analysis.levelKey], color },
       { label: T.usual, value: `${Math.round(analysis.typicalMinutes)} min` },
       { label: T.congestion, value: `${analysis.congestionPercent} %` },
-      { label: T.distance, value: `${analysis.distanceKm} km` },
+      { label: T.distance, value: `${formatNumber(analysis.distanceKm, lang)} km` },
     ];
     if (analysis.via) items.push({ label: T.via, value: analysis.via });
     items.push({ label: T.updated, value: formatTime(result.updatedAt, lang, timezone) });

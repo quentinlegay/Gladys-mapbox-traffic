@@ -22,7 +22,7 @@ Un appareil **trajet** par trajet configuré (jusqu'à 3), avec :
 
 Plus :
 
-- un **widget de tableau de bord** « Durée de trajet » : durée, retard,
+- un **widget de tableau de bord** « Trajet » : durée, retard,
   graphique durée actuelle vs durée habituelle, état du trafic et bouton
   « Actualiser » ;
 - un **widget** « Temps de trajet » qui liste tous vos trajets (ou ceux choisis

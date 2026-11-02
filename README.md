@@ -1,93 +1,114 @@
 # Gladys Mapbox Traffic
 
-Intégration externe pour [Gladys Assistant](https://gladysassistant.com) qui
-suit la **durée de vos trajets** (maison → travail…) avec le trafic en temps
-réel, via l'[API Mapbox Directions](https://docs.mapbox.com/api/navigation/directions/).
+![Mapbox Traffic for Gladys Assistant](cover.png)
 
-- 📈 **Graphique** de la durée du trajet, comparée à la durée habituelle
-  (fonctionnalités historisées + widget de tableau de bord) ;
-- 🧭 **Widget « Temps de trajet »** : tous les trajets d'un coup d'œil, avec
-  un badge de retard et un bouton « Tout actualiser » ;
-- 📊 **Widget « Quota Mapbox »** : requêtes du mois face aux 100 000 offertes,
-  et estimation en fin de mois (compteur local conservé dans `/data`) ;
-- 🚗 **Embouteillages** détectés à partir des annotations de congestion
-  Mapbox (part du trajet en circulation dense) ;
-- ⏱️ **Durée anormalement longue** par rapport à la durée typique ;
-- 🎬 **Scènes** : 4 déclencheurs (embouteillage / fin, durée anormale / retour
-  à la normale) et 1 action (« Obtenir la durée d'un trajet »).
+External integration for [Gladys Assistant](https://gladysassistant.com) that
+tracks the **travel time of your routes** (home → work…) with live traffic,
+through the [Mapbox Directions API](https://docs.mapbox.com/api/navigation/directions/).
 
-Construite à partir du template officiel
+- 📈 **Chart** of the travel time, compared with the usual one (historized
+  features + dashboard widget);
+- 🧭 **"Travel times" widget**: every route at a glance, with a delay badge and
+  a "Refresh all" button;
+- 📊 **"Mapbox quota" widget**: the requests of the month against the 100,000
+  free ones, and the estimate for the end of the month (local counter kept in
+  `/data`);
+- 🛣️ **Waypoints**: force a route through the places you choose instead of the
+  fastest way;
+- 🚗 **Traffic jams** detected from the Mapbox congestion annotations (share of
+  the route in heavy traffic);
+- ⏱️ **Abnormally long travel time** compared with the typical one;
+- 🎬 **Scenes**: 4 triggers (traffic jam / cleared, abnormal travel time / back
+  to normal) and 1 action ("Get the travel time of a route").
+
+Built from the official
 [integration-template-js](https://github.com/GladysAssistant/integration-template-js)
-et du SDK [`@gladysassistant/integration-sdk`](https://github.com/GladysAssistant/integration-sdk-js).
+template and the [`@gladysassistant/integration-sdk`](https://github.com/GladysAssistant/integration-sdk-js)
+SDK.
 
-Documentation utilisateur : [docs/fr.md](./docs/fr.md) · [docs/en.md](./docs/en.md) ·
+User documentation: [docs/en.md](./docs/en.md) · [docs/fr.md](./docs/fr.md) ·
 [docs/de.md](./docs/de.md) · [docs/es.md](./docs/es.md).
 
-## Fonctionnement
+Release notes: [CHANGELOG.md](./CHANGELOG.md).
+
+## Widgets
+
+![The three widgets on a Gladys dashboard: travel times of every route, the Mapbox quota, and one route with its chart](docs/assets/widgets.png)
+
+| Widget           | Shows                                                                                                                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Travel times** | Every route (or the ones picked in its settings): travel time, distance, main roads and a delay badge colored by the traffic. Tapping a route shows its details and a Google Maps link; **Refresh all** refreshes every route shown. |
+| **Trip**         | One route: travel time and delay tiles, the chart of the travel time vs the usual one, the traffic status and a **Refresh** button.                                                                                                  |
+| **Mapbox quota** | The Mapbox requests of the month against the free tier (one gauge for routes, one for geocoding) and the projection at the end of the month at the current pace, green / orange from 80 % / red from 100 %.                          |
+
+## How it works
 
 ```
-          config (jeton, trajets, seuils)
+          config (token, routes, thresholds)
                        │
    ┌───────────────────▼────────────────────┐
-   │ monitor.js  (boucle d'actualisation)   │──► publishStates  → appareils « trajet »
-   │  places.js  adresse → coordonnées      │                     (graphiques, widget)
-   │  mapbox.js  Directions + Geocoding     │──► publishSceneEvent → déclencheurs de scène
-   │  traffic.js retard, congestion, niveau │       (uniquement aux transitions)
+   │ monitor.js  (refresh loop)             │──► publishStates  → "route" devices
+   │  places.js  address → coordinates      │                     (charts, widgets)
+   │  mapbox.js  Directions + Geocoding     │──► publishSceneEvent → scene triggers
+   │  traffic.js delay, congestion, level   │       (on transitions only)
    └────────────────────────────────────────┘
 ```
 
-À chaque actualisation (toutes les 5 min par défaut, uniquement pendant les
-jours/heures actifs), pour chaque trajet dont l'appareil a été créé :
+At every refresh (every 5 min by default, only during the active days/hours),
+for each route whose device was created:
 
-1. le départ, les éventuels points de passage (« Passer par ») et la
-   destination sont résolus (coordonnées saisies, adresse géocodée une seule
-   fois, ou position de la maison si le départ est vide) ;
-2. un appel `GET /directions/v5/mapbox/driving-traffic/{départ};{passages…};{arrivée}`
-   avec `annotations=congestion,distance` renvoie la durée avec trafic
-   (`duration`), la durée typique (`duration_typical`) et la congestion de
-   chaque segment. Quand Mapbox n'a pas de durée typique pour une route, la
-   durée sans trafic (profil `driving`) sert de référence, mise en cache 24 h ;
-3. `traffic.js` calcule le retard, la part du trajet en congestion
-   `heavy`/`severe` et un niveau 0–3 ;
-4. les états sont publiés, et les déclencheurs de scène sont émis **à chaque
-   changement** (embouteillage commencé/terminé, durée anormale
-   commencée/terminée).
+1. the origin, the optional waypoints ("Go through") and the destination are
+   resolved (typed coordinates, an address geocoded only once, or the home
+   location when the origin is empty);
+2. a `GET /directions/v5/mapbox/driving-traffic/{origin};{waypoints…};{destination}`
+   request with `annotations=congestion,distance` returns the travel time with
+   traffic (`duration`), the typical travel time (`duration_typical`) and the
+   congestion of every segment. When Mapbox has no typical duration for a
+   road, the duration without traffic (`driving` profile) is the reference,
+   cached for 24 h;
+3. `traffic.js` computes the delay, the share of the route in `heavy`/`severe`
+   congestion and a level from 0 to 3;
+4. the states are published, and the scene triggers fire **on every change**
+   (traffic jam started/ended, abnormal travel time started/ended).
+
+Every successful Mapbox request is also counted in `/data/usage.json`, per API
+and per calendar month (UTC), for the "Mapbox quota" widget.
 
 ## Structure
 
 ```
 .
-├─ index.js                          # bootstrap SDK + câblage (aucune logique métier)
+├─ index.js                          # SDK bootstrap + wiring (no business logic)
 ├─ src/
-│  ├─ config.js                      # valeurs par défaut, normalisation, liste des trajets
-│  ├─ schedule.js                    # jours / heures actifs (fuseau configurable)
-│  ├─ mapbox.js                      # client Directions API + Geocoding API
-│  ├─ places.js                      # coordonnées ou adresse → point (avec cache)
-│  ├─ traffic.js                     # analyse pure : retard, congestion, niveau
-│  ├─ monitor.js                     # boucle, publication des états, transitions
-│  ├─ handlers.js                    # actions, action de scène, widgets
-│  ├─ usage.js                       # compteur mensuel des requêtes Mapbox (/data/usage.json)
-│  ├─ widget.js                      # contenu déclaratif des widgets (trajet, liste, quota)
+│  ├─ config.js                      # defaults, normalization, list of routes
+│  ├─ schedule.js                    # active days / hours (configurable timezone)
+│  ├─ mapbox.js                      # Directions API + Geocoding API client
+│  ├─ places.js                      # coordinates or address → point (cached)
+│  ├─ traffic.js                     # pure analysis: delay, congestion, level
+│  ├─ monitor.js                     # loop, state publishing, transitions
+│  ├─ handlers.js                    # actions, scene action, widgets
+│  ├─ usage.js                       # monthly counter of the Mapbox requests (/data/usage.json)
+│  ├─ widget.js                      # declarative content of the widgets (route, list, quota)
 │  └─ devices/
-│     ├─ index.js                    # un appareil par trajet configuré
-│     └─ route.js                    # fonctionnalités de l'appareil « trajet »
-├─ test/                             # tests `node --test` (fetch Mapbox simulé)
-├─ docs/{fr,en,de,es}.md             # documentation utilisateur (ré-hébergée par Gladys)
-├─ gladys-assistant-integration.json # manifeste
-├─ Dockerfile                        # Node 24 Alpine, rootfs en lecture seule
-└─ cover.png                         # couverture 800×534
+│     ├─ index.js                    # one device per configured route
+│     └─ route.js                    # features of the "route" device
+├─ test/                             # `node --test` tests (mocked Mapbox fetch)
+├─ docs/{en,fr,de,es}.md             # user documentation (re-hosted by Gladys)
+├─ gladys-assistant-integration.json # manifest
+├─ Dockerfile                        # Node 24 Alpine, read-only rootfs
+└─ cover.png                         # 800×534 cover
 ```
 
-## Développement
+## Development
 
 ```bash
 npm install
-npm test               # tests unitaires (node --test)
+npm test               # unit tests (node --test)
 npm run lint           # ESLint
 npm run format:check   # Prettier
 ```
 
-Lancer localement contre un Gladys de développement :
+Run locally against a development Gladys:
 
 ```bash
 GLADYS_HOST_API_URL="http://localhost:1443" \
@@ -97,34 +118,35 @@ LOG_LEVEL=debug \
 npm start
 ```
 
-Valider le manifeste avec les règles du store :
+Validate the manifest against the store rules:
 
 ```bash
 npx github:GladysAssistant/integration-store .
 ```
 
-## Publication
+## Release
 
-1. Ajoutez le topic GitHub `gladys-assistant-integration` au dépôt et rendez-le
-   public.
-2. **Actions → Release → Run workflow** (`patch` / `minor` / `major`) : la
-   version est incrémentée dans `package.json` et le manifeste, le tag est
-   poussé et l'image multi-arch `ghcr.io/quentinlegay/gladys-mapbox-traffic`
-   est construite. Rendez le package ghcr.io public lors de la première
-   publication.
-3. L'indexeur du store détecte la nouvelle version.
+1. Add the `gladys-assistant-integration` GitHub topic to the repository and
+   make it public.
+2. **Actions → Release → Run workflow** (`patch` / `minor` / `major`): the
+   version is bumped in `package.json` and the manifest, the tag is pushed and
+   the multi-arch `ghcr.io/quentinlegay/gladys-mapbox-traffic` image is built.
+   Make the ghcr.io package public on the first release.
+3. The store indexer picks up the new version.
 
-Les déclencheurs/actions de scène et les widgets nécessitent **Gladys ≥ 5.1.0**
-(`gladys_version` du manifeste).
+Scene triggers/actions and widgets require **Gladys ≥ 5.1.0** (`gladys_version`
+in the manifest).
 
 ## Notes
 
-- Le jeton Mapbox est un champ `secret` et n'apparaît jamais dans les logs.
-- Les trajets sont identifiés par leur emplacement (`route-1`…`route-3`) :
-  modifier l'adresse d'un trajet conserve l'appareil et son historique.
-- L'état des transitions est en mémoire : après un redémarrage, un
-  embouteillage en cours déclenche à nouveau « Embouteillage sur un trajet ».
+- The Mapbox token is a `secret` field and never shows in the logs.
+- Routes are identified by their slot (`route-1`…`route-3`): editing the
+  address of a route keeps its device and its history.
+- The transition state is in memory: after a restart, a traffic jam in
+  progress fires "Traffic jam on a route" again.
+- The request counter is an estimate: the Mapbox account is the reference, and
+  it also counts the other apps using the same account.
 
-## Licence
+## License
 
 Apache-2.0
