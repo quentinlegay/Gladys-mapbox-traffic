@@ -22,7 +22,7 @@ Ein Gerät **Strecke** pro konfigurierter Strecke (bis zu 3), mit:
 
 Außerdem:
 
-- ein **Dashboard-Widget** „Fahrzeit“: Dauer, Verspätung, Diagramm der
+- ein **Dashboard-Widget** „Strecke“: Dauer, Verspätung, Diagramm der
   aktuellen und der üblichen Fahrzeit, Verkehrszustand und eine Schaltfläche
   „Aktualisieren“;
 - ein **Widget** „Fahrzeiten“, das alle Ihre Strecken auflistet (oder die in

@@ -22,7 +22,7 @@ One **route** device per configured route (up to 3), with:
 
 Plus:
 
-- a **dashboard widget** "Travel time": duration, delay, chart of the current
+- a **dashboard widget** "Trip": duration, delay, chart of the current
   vs usual travel time, traffic status and a "Refresh" button;
 - a **widget** "Travel times" listing all your routes (or the ones picked in
   its settings): duration, distance, main roads and a delay badge colored by

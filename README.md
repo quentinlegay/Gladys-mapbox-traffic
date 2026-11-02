@@ -34,7 +34,7 @@ User documentation: [docs/en.md](./docs/en.md) · [docs/fr.md](./docs/fr.md) ·
 | Widget           | Shows                                                                                                                                                                                                                                |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Travel times** | Every route (or the ones picked in its settings): travel time, distance, main roads and a delay badge colored by the traffic. Tapping a route shows its details and a Google Maps link; **Refresh all** refreshes every route shown. |
-| **Travel time**  | One route: travel time and delay tiles, the chart of the travel time vs the usual one, the traffic status and a **Refresh** button.                                                                                                  |
+| **Trip**         | One route: travel time and delay tiles, the chart of the travel time vs the usual one, the traffic status and a **Refresh** button.                                                                                                  |
 | **Mapbox quota** | The Mapbox requests of the month against the free tier (one gauge for routes, one for geocoding) and the projection at the end of the month at the current pace, green / orange from 80 % / red from 100 %.                          |
 
 The image is an illustration: the content of each widget is built by the
