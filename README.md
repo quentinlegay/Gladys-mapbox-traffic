@@ -29,24 +29,13 @@ User documentation: [docs/en.md](./docs/en.md) · [docs/fr.md](./docs/fr.md) ·
 
 ## Widgets
 
-![The three dashboard widgets: travel times of every route, the Mapbox quota, and one route with its chart (generated illustration, not a screenshot)](docs/assets/widgets.en.png)
+![The three widgets on a Gladys dashboard: travel times of every route, the Mapbox quota, and one route with its chart](docs/assets/widgets.png)
 
 | Widget           | Shows                                                                                                                                                                                                                                |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Travel times** | Every route (or the ones picked in its settings): travel time, distance, main roads and a delay badge colored by the traffic. Tapping a route shows its details and a Google Maps link; **Refresh all** refreshes every route shown. |
 | **Trip**         | One route: travel time and delay tiles, the chart of the travel time vs the usual one, the traffic status and a **Refresh** button.                                                                                                  |
 | **Mapbox quota** | The Mapbox requests of the month against the free tier (one gauge for routes, one for geocoding) and the projection at the end of the month at the current pace, green / orange from 80 % / red from 100 %.                          |
-
-The image is an illustration: the content of each widget is built by the
-integration's own code (`src/widget.js`) from sample routes, then drawn in the
-style of the Gladys dashboard. French version:
-[docs/assets/widgets.fr.png](docs/assets/widgets.fr.png). To regenerate both
-after a widget change:
-
-```bash
-npm install --no-save playwright
-node scripts/render-widgets.mjs
-```
 
 ## How it works
 
@@ -99,7 +88,6 @@ and per calendar month (UTC), for the "Mapbox quota" widget.
 │  └─ devices/
 │     ├─ index.js                    # one device per configured route
 │     └─ route.js                    # features of the "route" device
-├─ scripts/render-widgets.mjs        # illustrations of the widgets (docs/assets)
 ├─ test/                             # `node --test` tests (mocked Mapbox fetch)
 ├─ docs/{en,fr,de,es}.md             # user documentation (re-hosted by Gladys)
 ├─ gladys-assistant-integration.json # manifest
