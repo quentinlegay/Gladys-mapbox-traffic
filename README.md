@@ -29,6 +29,8 @@ SDK.
 User documentation: [docs/en.md](./docs/en.md) · [docs/fr.md](./docs/fr.md) ·
 [docs/de.md](./docs/de.md) · [docs/es.md](./docs/es.md).
 
+Release notes: [CHANGELOG.md](./CHANGELOG.md).
+
 ## Widgets
 
 ![The three widgets on a Gladys dashboard: travel times of every route, the Mapbox quota, and one route with its chart](docs/assets/widgets.png)
