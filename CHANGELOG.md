@@ -4,7 +4,7 @@ All notable changes to this integration are documented in this file. The
 format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the
 project uses [Semantic Versioning](https://semver.org/).
 
-## [1.3.0] - 2026-11-02
+## [1.3.1] - 2026-11-02
 
 ### Changed
 
@@ -19,6 +19,12 @@ project uses [Semantic Versioning](https://semver.org/).
 - The README is now in English, with the integration cover and a screenshot of
   the three widgets.
 - New `CHANGELOG.md`.
+
+## [1.3.0] - 2026-11-02
+
+Released by mistake before the changes listed under 1.3.1 were merged: it
+only bumps the version number and is otherwise identical to 1.2.0. Update to
+1.3.1.
 
 ## [1.2.0] - 2026-11-02
 
@@ -114,6 +120,7 @@ project uses [Semantic Versioning](https://semver.org/).
   from the Mapbox congestion annotations, active days and hours, a **Travel
   time** dashboard widget with a chart, 4 scene triggers and 1 scene action.
 
+[1.3.1]: https://github.com/quentinlegay/Gladys-mapbox-traffic/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/quentinlegay/Gladys-mapbox-traffic/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/quentinlegay/Gladys-mapbox-traffic/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/quentinlegay/Gladys-mapbox-traffic/compare/v1.1.1...v1.1.2
