@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchRoute, geocode, MapboxError } from '../src/mapbox.js';
+import { fetchRoute, geocode, MapboxError, setUsageRecorder } from '../src/mapbox.js';
 import {
   directionsResponse,
   directionsRoute,
@@ -138,4 +138,26 @@ test('fetchRoute goes through the waypoints, in order', async () => {
   } finally {
     fetchMock.restore();
   }
+});
+
+test('every successful request is counted under its API, failures are not', async () => {
+  const counted = [];
+  setUsageRecorder((api) => counted.push(api));
+  let fail = false;
+  const fetchMock = mockFetch((url) => {
+    if (fail) return { status: 401, body: { message: 'Invalid Token' } };
+    return url.pathname.startsWith('/search/')
+      ? geocodingResponse(2.35, 48.85, 'Paris')
+      : directionsResponse(directionsRoute({ duration: 1 }));
+  });
+  try {
+    await fetchRoute({ accessToken: 'pk.test', origin, destination });
+    await geocode({ accessToken: 'pk.test', query: 'Paris' });
+    fail = true;
+    await assert.rejects(() => fetchRoute({ accessToken: 'pk.test', origin, destination }));
+  } finally {
+    fetchMock.restore();
+    setUsageRecorder(null);
+  }
+  assert.deepEqual(counted, ['directions', 'geocoding']);
 });

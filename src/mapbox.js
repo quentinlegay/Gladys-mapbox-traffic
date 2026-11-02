@@ -17,6 +17,15 @@ const logger = createLogger({ name: 'mapbox' });
 const API_BASE_URL = 'https://api.mapbox.com';
 const REQUEST_TIMEOUT_MS = 10_000;
 
+// Called with the API name ('directions' | 'geocoding') after every
+// successful request, to count the usage against the free tier.
+let recordUsage = () => {};
+
+/** @param {(api: string) => void} recorder */
+export function setUsageRecorder(recorder) {
+  recordUsage = recorder ?? (() => {});
+}
+
 export class MapboxError extends Error {
   /**
    * @param {string} message
@@ -40,7 +49,7 @@ function redact(url) {
   return url.replace(/access_token=[^&]+/, 'access_token=***');
 }
 
-async function request(url) {
+async function request(url, api) {
   logger.debug('Mapbox request ->', redact(url));
   let response;
   try {
@@ -61,6 +70,7 @@ async function request(url) {
       code: body.code,
     });
   }
+  recordUsage(api);
   return body;
 }
 
@@ -111,7 +121,7 @@ export async function fetchRoute({
   // Coordinates are formatted numbers only: nothing to escape in the path.
   const url = `${API_BASE_URL}/directions/v5/mapbox/${profile}/${coordinates}?${params}`;
 
-  const body = await request(url);
+  const body = await request(url, 'directions');
   if (body.code !== 'Ok' || !Array.isArray(body.routes) || body.routes.length === 0) {
     // e.g. NoRoute (no road between the points), NoSegment (a point too far
     // from any road), InvalidInput.
@@ -137,7 +147,7 @@ export async function geocode({ accessToken, query, language, proximity }) {
   if (language) params.set('language', language);
   if (proximity) params.set('proximity', formatPoint(proximity));
 
-  const body = await request(`${API_BASE_URL}/search/geocode/v6/forward?${params}`);
+  const body = await request(`${API_BASE_URL}/search/geocode/v6/forward?${params}`, 'geocoding');
   const feature = body.features?.[0];
   const [longitude, latitude] = feature?.geometry?.coordinates ?? [];
   if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) {

@@ -1433,6 +1433,59 @@
         }
       ],
       "action_timeout_seconds": 30
+    },
+    {
+      "key": "travel_times",
+      "label": {
+        "en": "Travel times",
+        "fr": "Temps de trajet",
+        "de": "Fahrzeiten",
+        "es": "Tiempos de trayecto"
+      },
+      "description": {
+        "en": "Your routes at a glance: travel time, distance, main roads, delay, and a refresh button.",
+        "fr": "Vos trajets d'un coup d'œil : durée, distance, routes, retard et un bouton d'actualisation.",
+        "de": "Ihre Strecken auf einen Blick: Fahrzeit, Entfernung, Straßen, Verspätung, Aktualisieren.",
+        "es": "Sus trayectos de un vistazo: duración, distancia, carreteras, retraso y un botón de actualizar."
+      },
+      "icon": "navigation",
+      "settings": [
+        {
+          "key": "routes",
+          "type": "multi_select",
+          "source": "devices",
+          "label": {
+            "en": "Routes",
+            "fr": "Trajets",
+            "de": "Strecken",
+            "es": "Trayectos"
+          },
+          "description": {
+            "en": "Empty: every route.",
+            "fr": "Vide : tous les trajets.",
+            "de": "Leer: alle Strecken.",
+            "es": "Vacío: todos los trayectos."
+          },
+          "required": false
+        }
+      ],
+      "action_timeout_seconds": 60
+    },
+    {
+      "key": "mapbox_quota",
+      "label": {
+        "en": "Mapbox quota",
+        "fr": "Quota Mapbox",
+        "de": "Mapbox-Kontingent",
+        "es": "Cuota de Mapbox"
+      },
+      "description": {
+        "en": "Mapbox requests of the month against the free tier, and the estimate for the month end.",
+        "fr": "Requêtes Mapbox du mois face à l'offre gratuite, et l'estimation en fin de mois.",
+        "de": "Mapbox-Anfragen des Monats im Vergleich zum Gratiskontingent und Prognose zum Monatsende.",
+        "es": "Solicitudes de Mapbox del mes frente al nivel gratuito, y la estimación a fin de mes."
+      },
+      "icon": "bar-chart-2"
     }
   ]
 }

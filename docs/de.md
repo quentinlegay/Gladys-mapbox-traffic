@@ -25,6 +25,14 @@ Außerdem:
 - ein **Dashboard-Widget** „Fahrzeit“: Dauer, Verspätung, Diagramm der
   aktuellen und der üblichen Fahrzeit, Verkehrszustand und eine Schaltfläche
   „Aktualisieren“;
+- ein **Widget** „Fahrzeiten“, das alle Ihre Strecken auflistet (oder die in
+  seinen Einstellungen gewählten): Dauer, Entfernung, Hauptstraßen und ein nach
+  Verkehr eingefärbtes Verspätungs-Abzeichen. Ein Tippen auf eine Strecke zeigt
+  die Details (Weg, übliche Dauer, gestauter Anteil) und einen Google-Maps-Link;
+  die Schaltfläche „Alle aktualisieren“ aktualisiert alle angezeigten Strecken;
+- ein **Widget** „Mapbox-Kontingent“: die Anfragen des Monats im Vergleich zum
+  kostenlosen Kontingent (Anzeigen für Routen und Geokodierung) und die
+  Prognose zum Monatsende beim aktuellen Tempo;
 - vier **Szenen-Auslöser**: _Stau auf einer Strecke_, _Stau aufgelöst_,
   _Ungewöhnlich lange Fahrzeit_, _Fahrzeit wieder normal_;
 - eine **Szenen-Aktion** _Fahrzeit einer Strecke abrufen_, z. B. um jeden
@@ -77,6 +85,13 @@ jedem Werktag aktualisiert werden, etwa 4.000 Anfragen pro Monat, und etwa
 26.000, wenn sie den ganzen Tag aktualisiert werden: beides bleibt im
 kostenlosen Tarif. 3 Strecken jede Minute rund um die Uhr zu aktualisieren
 verbraucht etwa 130.000 Anfragen und überschreitet ihn.
+
+Das Widget **Mapbox-Kontingent** verfolgt den Verbrauch: Die Integration zählt
+ihre eigenen erfolgreichen Anfragen (der Zähler wird in `/data` gespeichert und
+beginnt jeden Monat in UTC neu) und leitet daraus eine Prognose zum Monatsende
+ab. Es ist eine Schätzung: Maßgeblich ist Ihr
+[Mapbox-Konto](https://account.mapbox.com/), das auch andere Anwendungen
+desselben Kontos mitzählt.
 
 Ihren tatsächlichen Verbrauch sehen Sie in Ihrem
 [Mapbox-Konto](https://account.mapbox.com/).

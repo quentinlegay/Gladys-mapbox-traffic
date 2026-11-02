@@ -11,7 +11,7 @@ import { DEFAULT_CONFIG, MAX_ROUTES, WEEK_DAYS, AVOID_OPTIONS, LANGUAGES } from 
 import { createHandlers } from '../src/handlers.js';
 import { buildEventData, SCENE_EVENTS } from '../src/monitor.js';
 import { analyzeRoute } from '../src/traffic.js';
-import { WIDGET_INTERVALS, WIDGET_KEY } from '../src/widget.js';
+import { LIST_WIDGET_KEY, QUOTA_WIDGET_KEY, WIDGET_INTERVALS, WIDGET_KEY } from '../src/widget.js';
 import { createFakeGladys } from './helpers/fakeGladys.js';
 import { directionsRoute } from './helpers/mapboxFixtures.js';
 
@@ -61,10 +61,10 @@ test('scene event data carries every declared filter and variable', () => {
   }
 });
 
-test('the widget is registered with the declared key and intervals', () => {
+test('the widgets are registered with the declared keys and intervals', () => {
   assert.deepEqual(
     manifest.widgets.map((w) => w.key),
-    [WIDGET_KEY],
+    [WIDGET_KEY, LIST_WIDGET_KEY, QUOTA_WIDGET_KEY],
   );
   const interval = manifest.widgets[0].settings.find((s) => s.key === 'interval');
   assert.deepEqual(
